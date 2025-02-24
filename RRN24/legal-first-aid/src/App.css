@@ -1,0 +1,11 @@
+.login-background {
+  height: auto;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: none;
+  object-fit: cover;
+}
