@@ -1,0 +1,22 @@
+.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .submitted-questions {
+    width: 80%;
+    margin: 20px 0;
+  }
+  
+  .submitted-questions ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .submitted-questions li {
+    background-color: #f0f0f0;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
