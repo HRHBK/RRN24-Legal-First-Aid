@@ -5,6 +5,7 @@ import Features from '../Components/Home/Features.jsx';
 import FAQ from '../Components/Home/Faq.jsx';
 import Footer from '../Components/Home/Footer.jsx';
 import './Home.css';
+import PageLayout from '../Components/PageLayout.jsx';
 
 const Home = () => {
   const [questions, setQuestions] = useState([]);
@@ -14,8 +15,10 @@ const Home = () => {
   };
 
   return (
+    
     <div className="home">
-      <Header />
+      <PageLayout>
+    
       <Hero onSubmitQuestion={handleQuestionSubmit} />
       <Features />
       <FAQ />
@@ -27,7 +30,7 @@ const Home = () => {
           ))}
         </ul>
       </section>
-      <Footer />
+      </PageLayout>
     </div>
   );
 };

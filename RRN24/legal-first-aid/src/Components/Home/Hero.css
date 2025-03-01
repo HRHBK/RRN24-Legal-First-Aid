@@ -3,8 +3,8 @@
   align-items: center;
   justify-content: center;
   height: 60vh;
-/*  background: url('path/to/your/background-image.jpg') no-repeat center center/cover;*/
-  ;
+  /*  background: url('path/to/your/background-image.jpg') no-repeat center center/cover;*/
+  height: auto;
   color: black;
   text-align: center;
 }
@@ -13,10 +13,35 @@
   max-width: 600px;
 }
 
-.cta-button {
-  padding: 10px 20px;
+.search-form {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.search-form input {
+  padding: 10px;
+  border-radius: 5px 0 0 5px;
+  border: 1px solid #ccc;
+  width: 70%;
+}
+
+.search-form button {
+  padding: 10px;
+  border-radius: 0 5px 5px 0;
+  border: none;
   background-color: #007bff;
   color: white;
+  cursor: pointer;
+  width: 120px;
+}
+
+
+.cta-button {
+  padding: 10px 20px;
+  background-color: black;
+  color: green;
   border: none;
   cursor: pointer;
   margin-top: 20px;
@@ -37,8 +62,10 @@
 
 .question-form button {
   padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
+  background-color: rgba(0, 0, 0, 0.938);
+  color: green;
   border: none;
   cursor: pointer;
+  width: 120px;
+  font-size: 20px;
 }

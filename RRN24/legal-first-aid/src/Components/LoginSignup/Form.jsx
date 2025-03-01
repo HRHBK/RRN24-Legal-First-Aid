@@ -1,168 +1,157 @@
 import React, { useState } from 'react';
-import './FormStyle.css';
-import mail_icon from '../Assets/mail_icon.jpeg';
-import password_icon from '../Assets/password_icon.jpeg';
-import name_icon from '../Assets/name_icon.jpeg';
-import contact_icon from '../Assets/contact_icon.png';
+import './Form.css';
 
 const Form = ({ onSubmit }) => {
-    const initialValues = {
-        firstname: '',
-        lastname: '',
+    const [values, setValues] = useState({
+        fullname: '',
         email: '',
         password: '',
         confirmPassword: '',
-        gender: '',
         contact: '',
-        usertype: 'Normal user',
-        certificate: ''
-    };
+        role: 'normal_user',
+        image: null,
+        matriculationNumber: ''
+    });
 
-    const [values, setValues] = useState(initialValues);
     const [isLogin, setIsLogin] = useState(true);
     const [errors, setErrors] = useState({});
 
     const handleChanges = (e) => {
         const { name, value, type, files } = e.target;
-        setValues({
-            ...values,
-            [name]: type === 'file' ? files[0] : value
-        });
 
-        validateField(name, value);
+        setValues((prevValues) => {
+            const updatedValues = {
+                ...prevValues,
+                [name]: type === 'file' ? files[0] : value
+            };
+
+            validateField(name, value, updatedValues);
+            return updatedValues;
+        });
     };
 
-    const validateField = (name, value) => {
+    const validateField = (name, value, updatedValues) => {
         let error = '';
 
-        if (name === 'contact') {
-            if (value.length !== 9) {
-                error = 'Phone number must be exactly 9 characters';
-            }
+        if (name === 'contact' && value.length !== 9) {
+            error = 'Phone number must be exactly 9 digits';
+        }
+
+        if (name === 'email' && !/^\S+@\S+\.\S+$/.test(value)) {
+            error = 'Enter a valid email address';
         }
 
         if (name === 'password') {
             if (value.length < 7) {
                 error = 'Password must be at least 7 characters';
-            } else if (value === values.contact || value === values.firstname || value === values.lastname) {
-                error = 'Password cannot be the same as phone number, first name, or last name';
+            } else if (value === updatedValues.contact || value === updatedValues.fullname) {
+                error = 'Password cannot match your name or phone number';
             }
         }
 
-        setErrors({
-            ...errors,
-            [name]: error
-        });
+        if (name === 'confirmPassword' && value !== updatedValues.password) {
+            error = 'Passwords do not match';
+        }
+
+        setErrors((prevErrors) => ({ ...prevErrors, [name]: error }));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
         if (!isLogin && values.password !== values.confirmPassword) {
-            alert("Passwords do not match!");
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                confirmPassword: 'Passwords do not match'
+            }));
             return;
         }
-        if (Object.values(errors).some(error => error)) {
-            alert("Please fix the errors in the form");
+
+        if (Object.values(errors).some((error) => error)) {
+            alert("Please fix the errors before submitting.");
             return;
         }
+
         onSubmit(values);
     };
 
     const handleReset = () => {
-        setValues(initialValues);
+        setValues({
+            fullname: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+            contact: '',
+            role: 'normal_user',
+            image: null,
+            matriculationNumber: ''
+        });
         setErrors({});
     };
 
     const toggleForm = () => {
         setIsLogin(!isLogin);
+        handleReset();
     };
 
     return (
-        <>
+       <div className='form'>
+        <div className='form-wrapper'>
             <div className='container'>
                 <h1 className='heading'>{isLogin ? 'Login' : 'Sign Up'}</h1>
                 <form onSubmit={handleSubmit} onReset={handleReset}>
                     <div className='inputs'>
                         {!isLogin && (
                             <>
-                                <label htmlFor='firstname'>First Name*</label>
-                                <div className='input'>
-                                    <img src={name_icon} alt='Name' />
-                                    <input type='text' placeholder='' required name='firstname' onChange={handleChanges} value={values.firstname} style={{ borderColor: errors.firstname ? 'red' : '' }} />
-                                </div>
-
-                                <label htmlFor='lastname'>Last Name*</label>
-                                <div className='input'>
-                                    <img src={name_icon} alt='' />
-                                    <input type='text' placeholder='' required name='lastname' onChange={handleChanges} value={values.lastname} style={{ borderColor: errors.lastname ? 'red' : '' }} />
-                                </div>
+                                <label htmlFor='fullname'>Full Name*</label>
+                                <input type='text' id='fullname' name='fullname' required onChange={handleChanges} value={values.fullname} className={errors.fullname ? 'error-input' : ''} />
 
                                 <label htmlFor='contact'>Contact*</label>
-                                <div className='input'>
-                                    <img src={contact_icon} alt='' />
-                                    <input type='number' placeholder='' required name='contact' onChange={handleChanges} value={values.contact} style={{ borderColor: errors.contact ? 'red' : '' }} />
-                                    {errors.contact && <p className='error'>{errors.contact}</p>}
-                                </div>
+                                <input type='number' id='contact' name='contact' required onChange={handleChanges} value={values.contact} className={errors.contact ? 'error-input' : ''} />
+                                {errors.contact && <p className='error'>{errors.contact}</p>}
 
-                                <label htmlFor='gender'>Gender*</label>
-                                <div className='radio-group'>
-                                    <input type='radio' name='gender' value='Male' onChange={handleChanges} checked={values.gender === 'Male'} />Male
-                                    <input type='radio' name='gender' value='Female' onChange={handleChanges} checked={values.gender === 'Female'} />Female
-                                    <input type='radio' name='gender' value='Other' onChange={handleChanges} checked={values.gender === 'Other'} />Other
-                                </div>
-
-                                <label htmlFor='usertype'>User type</label>
-                                <select name='usertype' id='usertype' onChange={handleChanges} value={values.usertype}>
-                                    <option value='Normal user'>Normal User</option>
-                                    <option value='Lawyer'>Lawyer</option>
+                                <label htmlFor='role'>Role*</label>
+                                <select id='role' name='role' onChange={handleChanges} value={values.role}>
+                                    <option value='normal_user'>Normal User</option>
+                                    <option value='lawyer'>Lawyer</option>
                                 </select>
 
-                                {values.usertype === 'Lawyer' && (
+                                {values.role === 'lawyer' && (
                                     <>
-                                        <label htmlFor='certificate'>Qualification*</label><p>(for lawyers only)</p>
-                                        <div className='input'>
-                                            <input type='file' name='certificate' onChange={handleChanges} required />
-                                        </div>
+                                        <label htmlFor='matriculationNumber'>Matriculation Number*</label>
+                                        <input type='text' id='matriculationNumber' name='matriculationNumber' required onChange={handleChanges} value={values.matriculationNumber} />
                                     </>
                                 )}
+
+                                <label htmlFor='image'>Profile Image*</label>
+                                <input type='file' id='image' name='image' accept="image/png, image/jpeg" onChange={handleChanges} />
                             </>
                         )}
 
                         <label htmlFor='email'>Email*</label>
-                        <div className='input'>
-                            <img src={mail_icon} alt='' />
-                            <input type='email' placeholder='' required name='email' onChange={handleChanges} value={values.email} style={{ borderColor: errors.email ? 'red' : '' }} />
-                        </div>
+                        <input type='email' id='email' name='email' required onChange={handleChanges} value={values.email} className={errors.email ? 'error-input' : ''} />
+                        {errors.email && <p className='error'>{errors.email}</p>}
 
                         <label htmlFor='password'>Password*</label>
-                        <div className='input'>
-                            <img src={password_icon} alt='' />
-                            <input type='password' placeholder='' required name='password' onChange={handleChanges} value={values.password} style={{ borderColor: errors.password ? 'red' : '' }} />
-                            {errors.password && <p className='error'>{errors.password}</p>}
-                        </div>
-
-                        {isLogin && (
-                            <p><a href='#'>Forgot your password?</a></p>
-                        )}
+                        <input type='password' id='password' name='password' required onChange={handleChanges} value={values.password} className={errors.password ? 'error-input' : ''} />
+                        {errors.password && <p className='error'>{errors.password}</p>}
 
                         {!isLogin && (
                             <>
                                 <label htmlFor='confirmPassword'>Confirm Password*</label>
-                                <div className='input'>
-                                    <img src={password_icon} alt='' />
-                                    <input type='password' placeholder='' required name='confirmPassword' onChange={handleChanges} value={values.confirmPassword} style={{ borderColor: errors.confirmPassword ? 'red' : '' }} />
-                                </div>
+                                <input type='password' id='confirmPassword' name='confirmPassword' required onChange={handleChanges} value={values.confirmPassword} className={errors.confirmPassword ? 'error-input' : ''} />
+                                {errors.confirmPassword && <p className='error'>{errors.confirmPassword}</p>}
                             </>
                         )}
                     </div>
 
-                    <p>{isLogin ? "Don't have an account?" : "Already have an account?"}<a href='#' onClick={toggleForm}>{isLogin ? 'Sign Up' : 'Login'}</a></p>
+                    <p>{isLogin ? "Don't have an account?" : "Already have an account?"} <a href='#' onClick={toggleForm}>{isLogin ? 'Sign Up' : 'Login'}</a></p>
 
-                    <button type='submit'>{isLogin ? 'Login' : 'Submit'}</button>
-                    <button type='reset'>Reset</button>
+                    <button type='submit'>{isLogin ? 'Login' : 'Register'}</button>
                 </form>
             </div>
-        </>
+        </div>
+        </div>
     );
 };
 

@@ -1,0 +1,175 @@
+/* General Styles */
+.about-container {
+    width: 100%;
+    margin: 0;
+    font-family: "Arial", sans-serif;
+    text-align: center;
+  }
+  
+  /* Intro Section */
+  .about-intro {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.815);
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+    border-radius: 0;
+  }
+  
+  .about-intro h1 {
+    font-size: 32px;
+    margin-bottom: 15px;
+    color: #0056b3;
+  }
+  
+  .about-intro p {
+    font-size: 18px;
+    max-width: 900px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  
+  .highlight {
+    color: #0056b3;
+    font-weight: bold;
+  }
+  
+  /* Header Section */
+  .about-header {
+    background: #f8f9fa;
+    padding: 40px 20px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .about-header h1 {
+    font-size: 30px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .about-header p {
+    font-size: 18px;
+    color: #666;
+  }
+  
+  /* Section Styling */
+  .about-section {
+    background: rgba(0, 0, 0, 0.815);
+    padding: 50px 20px;
+  }
+  
+  .about-section h2 {
+    font-size: 28px;
+    margin-bottom: 25px;
+    color: #0056b3;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  
+  /* Content Cards */
+  .about-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .about-card {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    width: 320px;
+    text-align: left;
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .about-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .about-card h3 {
+    font-size: 20px;
+    margin-bottom: 12px;
+    color: #007bff;
+  }
+  
+  .about-card p {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  /* Call to Action */
+  .about-cta {
+    background: white;
+    color: black;
+    padding: 50px 20px;
+    text-align: center;
+  }
+  
+  .about-cta h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+  }
+  
+  .about-cta p {
+    font-size: 18px;
+    opacity: 0.9;
+  }
+  
+  .cta-button {
+    background: black;
+    color: #28a745;
+    border: none;
+    padding: 12px 24px;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 8px;
+    margin-top: 20px;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+    max-width: 140px;
+  }
+  
+  .cta-button:hover {
+    background: #f8f9fa;
+    transform: scale(1.05);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .about-card {
+      width: 90%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .about-intro h1 {
+      font-size: 28px;
+    }
+    .about-intro p {
+      font-size: 16px;
+    }
+    .about-header h1 {
+      font-size: 26px;
+    }
+    .about-header p {
+      font-size: 16px;
+    }
+    .about-section h2 {
+      font-size: 24px;
+    }
+    .about-card {
+      width: 95%;
+    }
+    .about-cta h2 {
+      font-size: 24px;
+    }
+    .cta-button {
+      font-size: 16px;
+    }
+  }
+  

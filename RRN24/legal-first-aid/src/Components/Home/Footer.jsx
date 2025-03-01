@@ -1,16 +1,24 @@
 import React from 'react';
 import './Footer.css';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-content">
-        <p>&copy; 2025 Legal First Aid. All rights reserved.</p>
         <div className="footer-links">
-          <a href="#">Contact Us</a>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
-          <a href="#">About Us</a>
+          <Link to='/about' >
+                  About-Us
+          </Link>
+          <Link to='/privacypolicy' >
+                 Privacy Policy
+          </Link>
+          <Link to='/termsofservice' >
+                  Terms of Service
+          </Link>
+          <Link to='/contact' >
+                  Contact
+          </Link>
         </div>
         <div className="footer-contact">
           <p>Email: support@legalfirstaid.com</p>
@@ -21,6 +29,7 @@ const Footer = () => {
           <a href="#"><i className="fab fa-twitter"></i></a>
           <a href="#"><i className="fab fa-linkedin-in"></i></a>
         </div>
+        <p>&copy; 2025 Legal First Aid. All rights reserved.</p>
       </div>
     </footer>
   );
