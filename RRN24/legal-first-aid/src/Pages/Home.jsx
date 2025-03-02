@@ -7,6 +7,7 @@ import Footer from '../Components/Home/Footer.jsx';
 import './Home.css';
 import PageLayout from '../Components/PageLayout.jsx';
 
+
 const Home = () => {
   const [questions, setQuestions] = useState([]);
 

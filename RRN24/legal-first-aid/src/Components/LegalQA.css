@@ -63,6 +63,7 @@
     width: 180px;
     text-align: center;
     font-weight: bold;
+    margin-right: 10px;
   }
   
   .button:hover {

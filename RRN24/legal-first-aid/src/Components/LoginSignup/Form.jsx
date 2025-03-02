@@ -1,156 +1,157 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './Form.css';
 
-const Form = ({ onSubmit }) => {
+const Form = () => {
+    const navigate = useNavigate();
     const [values, setValues] = useState({
-        fullname: '',
+        name: '',
         email: '',
         password: '',
-        confirmPassword: '',
-        contact: '',
-        role: 'normal_user',
+        password_confirmation: '',
+        phone_number: '',
+        role: 'customer',  
         image: null,
-        matriculationNumber: ''
+        matriculation_number: ''
     });
 
     const [isLogin, setIsLogin] = useState(true);
     const [errors, setErrors] = useState({});
+    const [serverError, setServerError] = useState('');
 
     const handleChanges = (e) => {
         const { name, value, type, files } = e.target;
-
-        setValues((prevValues) => {
-            const updatedValues = {
-                ...prevValues,
-                [name]: type === 'file' ? files[0] : value
-            };
-
-            validateField(name, value, updatedValues);
-            return updatedValues;
-        });
+        setValues((prevValues) => ({
+            ...prevValues,
+            [name]: type === 'file' ? files[0] : value
+        }));
     };
 
-    const validateField = (name, value, updatedValues) => {
-        let error = '';
-
-        if (name === 'contact' && value.length !== 9) {
-            error = 'Phone number must be exactly 9 digits';
-        }
-
-        if (name === 'email' && !/^\S+@\S+\.\S+$/.test(value)) {
-            error = 'Enter a valid email address';
-        }
-
-        if (name === 'password') {
-            if (value.length < 7) {
-                error = 'Password must be at least 7 characters';
-            } else if (value === updatedValues.contact || value === updatedValues.fullname) {
-                error = 'Password cannot match your name or phone number';
-            }
-        }
-
-        if (name === 'confirmPassword' && value !== updatedValues.password) {
-            error = 'Passwords do not match';
-        }
-
-        setErrors((prevErrors) => ({ ...prevErrors, [name]: error }));
-    };
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setServerError('');
 
-        if (!isLogin && values.password !== values.confirmPassword) {
-            setErrors((prevErrors) => ({
-                ...prevErrors,
-                confirmPassword: 'Passwords do not match'
-            }));
+        if (!isLogin && values.password !== values.password_confirmation) {
+            setErrors({ password_confirmation: 'Passwords do not match' });
             return;
         }
 
-        if (Object.values(errors).some((error) => error)) {
-            alert("Please fix the errors before submitting.");
-            return;
+        try {
+            if (isLogin) {
+                // **Login Request**
+                const response = await axios.post('https://creators-api.techchantier.site/api/v1/auth/login', {
+                    email: values.email,
+                    password: values.password,
+                });
+
+                const { token, user } = response.data;
+
+                if (token) {
+                    localStorage.setItem("authToken", token);
+                }
+
+                if (user) {
+                    localStorage.setItem("userRole", user.role || 'customer');  // Default to 'customer' if missing
+                    localStorage.setItem("userEmail", user.email || '');
+                } else {
+                    console.warn("User object is missing in API response:", response.data);
+                }
+
+                console.log("Login successful:", response.data);
+
+                // Redirect to landing page after login
+                navigate('/');
+
+            } else {
+                // **Registration Request**
+                const formData = new FormData();
+                formData.append("name", values.name);
+                formData.append("email", values.email);
+                formData.append("password", values.password);
+                formData.append("password_confirmation", values.password_confirmation);
+                formData.append("phone_number", values.phone_number);
+                formData.append("role", values.role);
+
+                if (values.image) {
+                    formData.append("profile_pic", values.image);
+                }
+                if (values.role === "creator") {
+                    formData.append("matriculation_number", values.matriculation_number);
+                }
+
+                const response = await axios.post('https://creators-api.techchantier.site/api/v1/auth/register', formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        "Accept": "application/json"
+                    }
+                });
+
+                console.log("Registration successful:", response.data);
+                setIsLogin(true);  // Switch to login form
+            }
+        } catch (error) {
+            console.error("Error:", error.response?.data || error.message);
+            setServerError(error.response?.data?.message || "Something went wrong. Please try again.");
         }
-
-        onSubmit(values);
-    };
-
-    const handleReset = () => {
-        setValues({
-            fullname: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-            contact: '',
-            role: 'normal_user',
-            image: null,
-            matriculationNumber: ''
-        });
-        setErrors({});
-    };
-
-    const toggleForm = () => {
-        setIsLogin(!isLogin);
-        handleReset();
     };
 
     return (
-       <div className='form'>
-        <div className='form-wrapper'>
-            <div className='container'>
-                <h1 className='heading'>{isLogin ? 'Login' : 'Sign Up'}</h1>
-                <form onSubmit={handleSubmit} onReset={handleReset}>
-                    <div className='inputs'>
-                        {!isLogin && (
-                            <>
-                                <label htmlFor='fullname'>Full Name*</label>
-                                <input type='text' id='fullname' name='fullname' required onChange={handleChanges} value={values.fullname} className={errors.fullname ? 'error-input' : ''} />
+        <div className='form'>
+            <div className='form-wrapper'>
+                <div className='container'>
+                    <h1 className='heading'>{isLogin ? 'Login' : 'Sign Up'}</h1>
 
-                                <label htmlFor='contact'>Contact*</label>
-                                <input type='number' id='contact' name='contact' required onChange={handleChanges} value={values.contact} className={errors.contact ? 'error-input' : ''} />
-                                {errors.contact && <p className='error'>{errors.contact}</p>}
+                    {serverError && <p className='error-message'>{serverError}</p>}
 
-                                <label htmlFor='role'>Role*</label>
-                                <select id='role' name='role' onChange={handleChanges} value={values.role}>
-                                    <option value='normal_user'>Normal User</option>
-                                    <option value='lawyer'>Lawyer</option>
-                                </select>
+                    <form onSubmit={handleSubmit}>
+                        <div className='inputs'>
+                            {!isLogin && (
+                                <>
+                                    <label htmlFor='name'>Full Name*</label>
+                                    <input type='text' id='name' name='name' required onChange={handleChanges} value={values.name} />
 
-                                {values.role === 'lawyer' && (
-                                    <>
-                                        <label htmlFor='matriculationNumber'>Matriculation Number*</label>
-                                        <input type='text' id='matriculationNumber' name='matriculationNumber' required onChange={handleChanges} value={values.matriculationNumber} />
-                                    </>
-                                )}
+                                    <label htmlFor='phone_number'>Contact*</label>
+                                    <input type='text' id='phone_number' name='phone_number' required onChange={handleChanges} value={values.phone_number} />
 
-                                <label htmlFor='image'>Profile Image*</label>
-                                <input type='file' id='image' name='image' accept="image/png, image/jpeg" onChange={handleChanges} />
-                            </>
-                        )}
+                                    <label htmlFor='role'>Role*</label>
+                                    <select id='role' name='role' onChange={handleChanges} value={values.role}>
+                                        <option value='customer'>Normal User</option>
+                                        <option value='creator'>Lawyer</option>
+                                    </select>
 
-                        <label htmlFor='email'>Email*</label>
-                        <input type='email' id='email' name='email' required onChange={handleChanges} value={values.email} className={errors.email ? 'error-input' : ''} />
-                        {errors.email && <p className='error'>{errors.email}</p>}
+                                    {values.role === 'creator' && (
+                                        <>
+                                            <label htmlFor='matriculation_number'>Matriculation Number*</label>
+                                            <input type='text' id='matriculation_number' name='matriculation_number' required onChange={handleChanges} value={values.matriculation_number} />
+                                        </>
+                                    )}
 
-                        <label htmlFor='password'>Password*</label>
-                        <input type='password' id='password' name='password' required onChange={handleChanges} value={values.password} className={errors.password ? 'error-input' : ''} />
-                        {errors.password && <p className='error'>{errors.password}</p>}
+                                    <label htmlFor='image'>Profile Image*</label>
+                                    <input type='file' id='image' name='image' accept="image/png, image/jpeg" onChange={handleChanges} />
+                                </>
+                            )}
 
-                        {!isLogin && (
-                            <>
-                                <label htmlFor='confirmPassword'>Confirm Password*</label>
-                                <input type='password' id='confirmPassword' name='confirmPassword' required onChange={handleChanges} value={values.confirmPassword} className={errors.confirmPassword ? 'error-input' : ''} />
-                                {errors.confirmPassword && <p className='error'>{errors.confirmPassword}</p>}
-                            </>
-                        )}
-                    </div>
+                            <label htmlFor='email'>Email*</label>
+                            <input type='email' id='email' name='email' required onChange={handleChanges} value={values.email} />
 
-                    <p>{isLogin ? "Don't have an account?" : "Already have an account?"} <a href='#' onClick={toggleForm}>{isLogin ? 'Sign Up' : 'Login'}</a></p>
+                            <label htmlFor='password'>Password*</label>
+                            <input type='password' id='password' name='password' required onChange={handleChanges} value={values.password} />
 
-                    <button type='submit'>{isLogin ? 'Login' : 'Register'}</button>
-                </form>
+                            {!isLogin && (
+                                <>
+                                    <label htmlFor='password_confirmation'>Confirm Password*</label>
+                                    <input type='password' id='password_confirmation' name='password_confirmation' required onChange={handleChanges} value={values.password_confirmation} />
+                                </>
+                            )}
+                        </div>
+
+                        <p>{isLogin ? "Don't have an account?" : "Already have an account?"} <a href='#' onClick={() => setIsLogin(!isLogin)}>{isLogin ? 'Sign Up' : 'Login'}</a></p>
+
+                        <button type='submit'>{isLogin ? 'Login' : 'Register'}</button>
+                    </form>
+                </div>
             </div>
-        </div>
         </div>
     );
 };

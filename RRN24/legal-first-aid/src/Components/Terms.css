@@ -1,0 +1,60 @@
+/* General Styling */
+.terms-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+.terms-container h1 {
+    text-align: center;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.terms-container section {
+    margin-bottom: 20px;
+}
+
+.terms-container h2 {
+    color: #0056b3;
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.terms-container ul {
+    padding-left: 20px;
+}
+
+.terms-container ul li {
+    margin-bottom: 5px;
+}
+
+/* Footer */
+.terms-footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .terms-container {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .terms-container h1 {
+        font-size: 24px;
+    }
+
+    .terms-container h2 {
+        font-size: 18px;
+    }
+}

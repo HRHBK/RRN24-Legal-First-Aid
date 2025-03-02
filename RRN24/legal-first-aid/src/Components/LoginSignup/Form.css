@@ -7,6 +7,18 @@
     display: flex;;
 }
 
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 3px;
+}
+
+.error-input {
+    border: 1px solid red;
+    background-color: #ffe6e6;
+}
+
+
 .form-wrapper {
     height:fit-content;
     margin: 0 auto;
