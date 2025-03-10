@@ -1,103 +1,166 @@
 import React, { useState, useEffect } from "react";
-import legalQuestions from "./Data"; // Importing questions from the database
-import "./LegalQA.css"; // Import the CSS file
+import "./LegalQA.css";
 
-const LegalQA = () => {
+const LegalQA = ({ questions, setQuestions, isLoggedIn, userData, onSubmitQuestion }) => {
   const [visibleAnswers, setVisibleAnswers] = useState({});
-  const [answers, setAnswers] = useState(legalQuestions);
-  const [newAnswer, setNewAnswer] = useState("");
-  const [selectedLawType, setSelectedLawType] = useState("Common Law");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userEmail, setUserEmail] = useState(null);
+  const [newAnswers, setNewAnswers] = useState({});
+  const [selectedLawTypes, setSelectedLawTypes] = useState({});
+  const [newQuestion, setNewQuestion] = useState("");
+  const [triggerRender, setTriggerRender] = useState(0);
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    const email = localStorage.getItem("userEmail");
-    if (token) {
-      setIsLoggedIn(true);
-      setUserEmail(email);
-    }
-  }, []);
+    setTriggerRender(prev => prev + 1); // Trigger re-render when login state changes
+  }, [userData, isLoggedIn]);
 
   const toggleAnswers = (id) => {
     setVisibleAnswers((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
-  const submitAnswer = (questionId) => {
-    if (!newAnswer.trim() || !isLoggedIn) return;
-    
-    const updatedQuestions = answers.map((q) => {
-      if (q.id === questionId) {
-        return {
-          ...q,
-          responses: [
-            ...q.responses,
-            {
-              id: q.responses.length + 1,
-              answer: newAnswer,
-              answeredBy: userEmail || "Anonymous",
-              lawType: selectedLawType,
-            },
-          ],
-        };
-      }
-      return q;
-    });
+  const handleAnswerChange = (questionId, value) => {
+    setNewAnswers((prev) => ({ ...prev, [questionId]: value }));
+  };
 
-    setAnswers(updatedQuestions);
-    setNewAnswer("");
+  const handleLawTypeChange = (questionId, value) => {
+    setSelectedLawTypes((prev) => ({ ...prev, [questionId]: value }));
+  };
+
+  const submitAnswer = (questionId) => {
+    if (!newAnswers[questionId]?.trim()) return;
+
+    const newAnswerObj = {
+      id: Date.now(),
+      answer: newAnswers[questionId],
+      answeredBy: userData?.name || "Anonymous",
+      lawType: selectedLawTypes[questionId] || "Common Law",
+    };
+
+    setQuestions((prevQuestions) =>
+      prevQuestions.map((q) =>
+        q.id === questionId ? { ...q, responses: [...q.responses, newAnswerObj] } : q
+      )
+    );
+    setNewAnswers((prev) => ({ ...prev, [questionId]: "" }));
   };
 
   const deleteQuestion = (questionId) => {
-    if (!isLoggedIn) return;
-    setAnswers((prevQuestions) => prevQuestions.filter((q) => q.id !== questionId));
+    setQuestions((prevQuestions) => prevQuestions.filter((q) => q.id !== questionId));
   };
 
   const deleteAnswer = (questionId, answerId) => {
-    if (!isLoggedIn) return;
-    setAnswers((prevQuestions) =>
+    setQuestions((prevQuestions) =>
       prevQuestions.map((q) =>
-        q.id === questionId ? { ...q, responses: q.responses.filter((res) => res.id !== answerId) } : q
+        q.id === questionId
+          ? { ...q, responses: q.responses.filter((r) => r.id !== answerId) }
+          : q
       )
     );
   };
 
+  const editAnswer = (questionId, answerId) => {
+    const newAnswerText = prompt("Edit your answer: ");
+    if (newAnswerText) {
+      setQuestions((prevQuestions) =>
+        prevQuestions.map((q) =>
+          q.id === questionId
+            ? {
+                ...q,
+                responses: q.responses.map((r) =>
+                  r.id === answerId ? { ...r, answer: newAnswerText } : r
+                ),
+              }
+            : q
+        )
+      );
+    }
+  };
+
+  const editQuestion = (questionId) => {
+    const newQuestionText = prompt("Edit your question: ");
+    if (newQuestionText) {
+      setQuestions((prevQuestions) =>
+        prevQuestions.map((q) =>
+          q.id === questionId ? { ...q, question: newQuestionText } : q
+        )
+      );
+    }
+  };
+
   return (
-    <div className="container">
+    <div className="container" key={triggerRender}>
       <h1>Legal Q&A</h1>
-      {answers.map(({ id, question, askedBy, responses }) => (
+      {isLoggedIn && (
+        <div className="question-input">
+          <textarea
+            className="textarea"
+            value={newQuestion}
+            onChange={(e) => setNewQuestion(e.target.value)}
+            placeholder="Ask a legal question..."
+          />
+          <button 
+            className="submit-button" 
+            onClick={() => {
+              if (newQuestion.trim()) {
+                onSubmitQuestion(newQuestion, userData?.name || "Anonymous");
+                setNewQuestion("");
+              }
+            }}
+          >
+            Submit Question
+          </button>
+        </div>
+      )}
+
+      {questions.map(({ id, question, askedBy, responses }) => (
         <div key={id} className="question-box">
           <h2 className="question-title">{question}</h2>
-          <p className="asked-by">Asked by: {askedBy}</p>
+          <p className="asked-by">Asked by: {askedBy || "Anonymous"}</p>
+
+          {isLoggedIn && userData?.name === askedBy && (
+            <div className="action-buttons">
+              <button onClick={() => editQuestion(id)}>Edit Question</button>
+              <button onClick={() => deleteQuestion(id)}>Delete Question</button>
+            </div>
+          )}
+
           <button className="button" onClick={() => toggleAnswers(id)}>
             {visibleAnswers[id] ? "Hide Answers" : "Show Answers"}
           </button>
-          {isLoggedIn && <button className="delete-button" onClick={() => deleteQuestion(id)}>Delete Question</button>}
 
           {visibleAnswers[id] && (
-            <div className="answer-box">
-              {responses.map(({ id: answerId, answer, answeredBy, lawType }) => (
-                <div key={answerId}>
-                  <p className="answer-text">{answer}</p>
-                  <p className="answered-by">
-                    <strong>Answered by:</strong> {answeredBy} | <strong>Law Type:</strong> {lawType}
-                  </p>
-                  {isLoggedIn && <button className="delete-button" onClick={() => deleteAnswer(id, answerId)}>Delete Answer</button>}
-                </div>
-              ))}
+            <>
+              <div className="answer-section">
+                {responses.map(({ id: answerId, answer, answeredBy, lawType }) => (
+                  <div key={answerId} className="answer-box">
+                    <p className="answer-text">{answer}</p>
+                    <p className="answered-by">
+                      <strong>Answered by:</strong> {answeredBy || "Anonymous"} | <strong>Law Type:</strong>{" "}
+                      <span className={lawType === "Common Law" ? "common-law" : "civil-law"}>
+                        {lawType}
+                      </span>
+                    </p>
 
-              {isLoggedIn && (
-                <div className="mt-4">
+                    {isLoggedIn && userData?.role === "lawyer" && (
+                      <div className="action-buttons">
+                        <button onClick={() => editAnswer(id, answerId)}>Edit Answer</button>
+                        <button onClick={() => deleteAnswer(id, answerId)}>Delete Answer</button>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {isLoggedIn && userData?.role === "lawyer" && (
+                <div className="answer-input">
                   <textarea
                     className="textarea"
-                    placeholder="Write your answer..."
-                    value={newAnswer}
-                    onChange={(e) => setNewAnswer(e.target.value)}
+                    value={newAnswers[id] || ""}
+                    onChange={(e) => handleAnswerChange(id, e.target.value)}
+                    placeholder="Write your answer here..."
                   />
                   <select
                     className="select"
-                    value={selectedLawType}
-                    onChange={(e) => setSelectedLawType(e.target.value)}
+                    value={selectedLawTypes[id] || "Common Law"}
+                    onChange={(e) => handleLawTypeChange(id, e.target.value)}
                   >
                     <option value="Common Law">Common Law</option>
                     <option value="Civil Law">Civil Law</option>
@@ -107,7 +170,7 @@ const LegalQA = () => {
                   </button>
                 </div>
               )}
-            </div>
+            </>
           )}
         </div>
       ))}

@@ -5,8 +5,9 @@ import Terms from '../Components/Terms.jsx'
 const TermsOfServices = () => {
   return (
     <PageLayout>
-        <Terms />
-    </PageLayout>
+      <Terms />
+          </PageLayout>
+      
   )
 }
 

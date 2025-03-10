@@ -61,20 +61,7 @@ const legalQuestions = [
     }
   ];
   
-  /*for (let i = 6; i <= 20; i++) {
-    legalQuestions.push({
-      id: i,
-      question: `Legal question ${i}?`,
-      askedBy: `User${i}`,
-      responses: [
-        { id: 1, answer: "This is the first response.", answeredBy: `Lawyer${i}A`, lawType: "Common Law" },
-        { id: 2, answer: "This is the second response.", answeredBy: `Lawyer${i}B`, lawType: "Civil Law" },
-        { id: 3, answer: "This is the third response.", answeredBy: `Lawyer${i}C`, lawType: "Common Law" },
-        { id: 4, answer: "This is the fourth response.", answeredBy: `Lawyer${i}D`, lawType: "Civil Law" },
-        { id: 5, answer: "This is the fifth response.", answeredBy: `Lawyer${i}E`, lawType: "Common Law" }
-      ]
-    });
-  }*/
+  
   
   export default legalQuestions;
   

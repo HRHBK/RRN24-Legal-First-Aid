@@ -9,7 +9,7 @@
   /* Intro Section */
   .about-intro {
     width: 100%;
-    background: rgba(0, 0, 0, 0.815);
+    background: white;
     color: white;
     padding: 40px 20px;
     text-align: center;
@@ -55,7 +55,7 @@
   
   /* Section Styling */
   .about-section {
-    background: rgba(0, 0, 0, 0.815);
+    background: white;
     padding: 50px 20px;
   }
   

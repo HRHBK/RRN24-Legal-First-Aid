@@ -7,7 +7,7 @@ const Question_Answers = () => {
   return (
     <PageLayout>
       <h1>Question and Answers</h1>
-      <LegalQA />
+      <LegalQA questions={questions} setQuestions={setQuestions} onSubmitQuestion={handleQuestionSubmit} />
     </PageLayout>
   )
 }

@@ -3,14 +3,15 @@
   align-items: center;
   justify-content: center;
   height: 60vh;
-  /*  background: url('path/to/your/background-image.jpg') no-repeat center center/cover;*/
-  height: auto;
   color: black;
   text-align: center;
+  margin-bottom: 100px;
 }
 
 .hero-content {
   max-width: 600px;
+  width: 100%;
+  padding: 20px;
 }
 
 .search-form {
@@ -20,28 +21,34 @@
   width: 100%;
 }
 
+.login-message {
+  color: red;
+  font-weight: 600;
+  font-size: 20px;
+}
+
 .search-form input {
   padding: 10px;
   border-radius: 5px 0 0 5px;
   border: 1px solid #ccc;
   width: 70%;
+  max-width: 400px;
 }
 
 .search-form button {
   padding: 10px;
   border-radius: 0 5px 5px 0;
   border: none;
-  background-color: #007bff;
+  background-color: black;
   color: white;
   cursor: pointer;
   width: 120px;
 }
 
-
-.cta-button {
+.cta-button button {
   padding: 10px 20px;
   background-color: black;
-  color: green;
+  color: white;
   border: none;
   cursor: pointer;
   margin-top: 20px;
@@ -49,6 +56,16 @@
 
 .question-form {
   margin-top: 20px;
+}
+
+.question-form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
 }
 
 .question-form textarea {
@@ -62,10 +79,36 @@
 
 .question-form button {
   padding: 10px 20px;
-  background-color: rgba(0, 0, 0, 0.938);
-  color: green;
+  background-color: black;
+  color: white;
   border: none;
   cursor: pointer;
   width: 120px;
   font-size: 20px;
+}
+
+.question-form button:hover, .cta-button button:hover {
+  background-color: black;
+  color: white;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+  .search-form input {
+    width: 100%;
+    max-width: none;
+  }
+
+  .cta-button button {
+    width: 100%;
+  }
+
+  .question-form input,
+  .question-form textarea {
+    width: 100%;
+  }
+
+  .question-form button {
+    width: 100%;
+  }
 }

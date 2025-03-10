@@ -6,7 +6,8 @@ import About from './Pages/About';
 import Contact from './Pages/Contact';
 import Form from './Components/LoginSignup/Form.jsx';
 import Question_Answers from './Pages/Question_Answers';
-import PrivacyPolicy from './Pages/PrivacyPolicy.jsx'
+import PrivacyPolicy from './Pages/PrivacyPolicy.jsx';
+import TermsOfServices from './Pages/TermsOfServices.jsx';
 
 
 const router = createBrowserRouter([
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: '/q&a',
     element: <Question_Answers />,
+  },
+  {
+    path: '/termsofservice',
+    element: <TermsOfServices />,
   },
   {
     path: '/privacypolicy',

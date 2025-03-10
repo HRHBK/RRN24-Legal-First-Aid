@@ -5,7 +5,6 @@ import Background from '../Components/Background/Background.jsx';
 import Navbar from '../Components/Navbar/Navbar.jsx';
 import BgData from '../Components/Background/bgData.jsx';
 import lawyers2 from '../Components/Assets/lawyers2.png';
-import LegalQA from '../Components/LegalQA.jsx';
 import Footer from '../Components/Home/Footer.jsx';
 
 
@@ -42,7 +41,7 @@ function LandingPage() {
           <Background bgCount={bgCount} />
           <Navbar onLoginClick={handleLoginClick} />
           <BgData bgCount={bgCount} textData={textData[bgCount]} setBgCount={setBgCount} />
-          <LegalQA />
+        
           <Footer />
         </div>
       )}
