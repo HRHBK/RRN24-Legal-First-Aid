@@ -7,157 +7,155 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
-    height: auto;
-    background-color: white;
+    padding: 10px 30px;
+    background-color: #000; /* Black background */
+    color: white; /* White text color */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 1000;
 }
 
-
-/* Logo Section */
-.nav-logo a {
-    font-size: 30px;
-    font-weight: 600;
-    color: black;
-    text-decoration: none;
-}
-
-/* Navigation Menu */
-.nav-menu {
+/* Left Section (Logo) */
+.nav-left {
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 15px; /* Increased gap for better spacing */
 }
 
-/* Navigation Links */
-.nav-menu a {
-    font-size: 20px;
-    font-weight: 600;
-    color: black;
+.logo-image {
+    width: 70px; /* Increased size */
+    height: 70px; /* Increased size */
+}
+
+.logo-title {
+    font-size: 24px; /* Increased font size */
+    font-weight: bold;
+    color: white; /* White text color */
     text-decoration: none;
-    transition: color 0.3s ease-in-out;
 }
 
-.nav-menu a:hover {
-    color: #4285f4;
-}
-
-/* User Info Section */
-.user-info {
+/* Center Section (Nav Links and Search) */
+.nav-center {
     display: flex;
     align-items: center;
     gap: 20px;
-    padding-right: 60px;
-    padding-bottom: 20px;
-    padding-top: 20px;
+    margin: 0 auto;
 }
 
-/* User Profile Image */
-.user-image {
+.nav-link {
+    font-size: 24px; /* Increased icon size */
+    color: white; /* White text color */
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.nav-link:hover {
+    color: #ddd; /* Lighter hover effect */
+}
+
+.nav-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-search input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px; /* Adjusted for seamless alignment with button */
+    outline: none;
+    font-size: 14px;
+    width: 200px;
+    background-color: #333;
+    color: white;
+    height: 38px; /* Reduced height to match the button */
+}
+
+.nav-search button {
+    background: #0073b1;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 0 5px 5px 0; /* Adjusted for seamless alignment with input */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    height: 38px; /* Ensures consistent height with input */
+}
+
+.nav-search button:hover {
+    background: #0056b3;
+}
+
+/* Right Section (Login/Logout) */
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-login,
+.nav-logout {
+    padding: 8px 16px;
+    background-color: #0073b1;
+    color: white; /* White text color */
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 20px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.3s ease-in-out;
+}
+
+.nav-login:hover,
+.nav-logout:hover {
+    background-color: #0056b3;
+}
+
+/* User Profile Section */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-image {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
+    border: 2px solid #0073b1;
 }
 
-/* User Initials (Default Avatar) */
-.user-initials {
+.profile-initials {
     width: 40px;
     height: 40px;
+    border-radius: 50%;
+    background-color: #0073b1;
+    color: white; /* White text color */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
-    background-color: black; /* Default blue background */
-    color: white;
-    border-radius: 50%;
-    text-transform: uppercase;
-}
-
-/* Login / Logout Button */
-.nav-login,
-.nav-logout  {
-    padding: 8px 16px;
-    background-color: #888;
-    color: black;
-    text-decoration: none;
-    font-size: 20px;
-    font-weight: 600;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
-}
-
-.nav-logoutin a:hover{
-    background-color: #888;
-    color: black;
-}
-
-.nav-logout a:hover{
-    background-color: #888;
-    color: black;
-}
-
-/* Hamburger Menu (Hidden by Default) */
-.hamburger {
-    display: none;
-    font-size: 25px;
-    cursor: pointer;
 }
 
 /* Responsive Design */
-@media screen and (max-width: 1024px) {
-    .nav-menu {
-        gap: 20px;
-    }
-
-    .nav-logo a {
-        font-size: 25px;
-    }
-
-    .nav-login,
-    .nav-logout {
-        padding-right: 20px;
-    }
-}
-
 @media screen and (max-width: 768px) {
-    /* Show Hamburger Menu */
-    .hamburger {
-        display: block;
+    .nav {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 15px;
     }
 
-    /* Hide Menu by Default */
-    .nav-menu {
-        position: absolute;
-        top: 80px;
-        left: 0;
+    .nav-center {
+        flex-direction: column;
+        gap: 15px;
         width: 100%;
-        background: white;
-        flex-direction: column;
-        text-align: center;
-        padding: 20px 0;
-        display: none;
     }
 
-    /* Show Menu when Active */
-    .nav-menu.active {
-        display: flex;
-    }
-
-    /* Adjust User Info */
-    .user-info {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    /* Center Buttons */
-    .nav-login,
-    .nav-logout {
-        width: 90%;
-        text-align: center;
-        padding-right: 20px;
+    .nav-search input {
+        width: 100%;
     }
 }

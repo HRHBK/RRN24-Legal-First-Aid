@@ -6,6 +6,7 @@ import Navbar from '../Components/Navbar/Navbar.jsx';
 import BgData from '../Components/Background/bgData.jsx';
 import lawyers2 from '../Components/Assets/lawyers2.png';
 import Footer from '../Components/Home/Footer.jsx';
+import FAQ from '../Components/Home/Faq.jsx';
 
 
 function LandingPage() {
@@ -34,14 +35,15 @@ function LandingPage() {
     <>
       {showLoginForm ? (
         <div className="login-background" style={{ backgroundImage: `url(${backgroundImage})` }}>
-      
+
         </div>
       ) : (
         <div>
           <Background bgCount={bgCount} />
+          <div className="overlay"></div>
           <Navbar onLoginClick={handleLoginClick} />
           <BgData bgCount={bgCount} textData={textData[bgCount]} setBgCount={setBgCount} />
-        
+           <FAQ />
           <Footer />
         </div>
       )}

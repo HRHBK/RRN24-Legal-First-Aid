@@ -4,7 +4,8 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: white;
+    background: linear-gradient(to bottom, #f3f2ef, #e9e5df);
+    /* LinkedIn-like gradient */
     padding: 40px;
     flex-wrap: wrap;
 }
@@ -37,7 +38,8 @@
     text-align: left;
 }
 
-.contact-container input, .contact-container textarea {
+.contact-container input,
+.contact-container textarea {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;

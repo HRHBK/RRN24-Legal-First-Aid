@@ -6,6 +6,8 @@
   color: black;
   text-align: center;
   margin-bottom: 100px;
+  background: linear-gradient(to bottom, #f3f2ef, #e9e5df);
+  /* LinkedIn-like gradient */
 }
 
 .hero-content {
@@ -87,7 +89,8 @@
   font-size: 20px;
 }
 
-.question-form button:hover, .cta-button button:hover {
+.question-form button:hover,
+.cta-button button:hover {
   background-color: black;
   color: white;
 }

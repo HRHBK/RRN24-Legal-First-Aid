@@ -1,4 +1,39 @@
-h1{
+h1 {
     text-align: center;
-    font-size: 2.5rem;
+    font-size: 2rem; /* Reduced font size */
+    margin-bottom: 15px; /* Reduced margin */
+}
+
+.questions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Reduced gap */
+    padding: 15px; /* Reduced padding */
+    max-width: 700px; /* Reduced max width */
+    margin: 0 auto;
+}
+
+.question-card {
+    background-color: #f3f2ef;
+    padding: 15px; /* Reduced padding */
+    border-radius: 8px; /* Reduced border radius */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Slightly reduced shadow */
+}
+
+.question-title {
+    font-size: 1.2rem; /* Reduced font size */
+    font-weight: bold;
+    margin-bottom: 8px; /* Reduced margin */
+    color: #007bff;
+}
+
+.question-description {
+    font-size: 0.9rem; /* Reduced font size */
+    margin-bottom: 8px; /* Reduced margin */
+    color: #333;
+}
+
+.question-author {
+    font-size: 0.8rem; /* Reduced font size */
+    color: #555;
 }

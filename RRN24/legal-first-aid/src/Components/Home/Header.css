@@ -2,5 +2,7 @@
   width: 100%;
   background-color: white;
   height: auto;
-  margin-bottom: 150px;;
+  margin-bottom: 150px;
+  background: linear-gradient(to bottom, #f3f2ef, #e9e5df);
+  /* LinkedIn-like gradient */
 }

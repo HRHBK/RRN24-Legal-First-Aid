@@ -1,177 +1,199 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./LegalQA.css";
 
-const LegalQA = ({ questions, setQuestions, isLoggedIn, userData, onSubmitQuestion }) => {
-  const [visibleAnswers, setVisibleAnswers] = useState({});
-  const [newAnswers, setNewAnswers] = useState({});
-  const [selectedLawTypes, setSelectedLawTypes] = useState({});
-  const [newQuestion, setNewQuestion] = useState("");
-  const [triggerRender, setTriggerRender] = useState(0);
+const LegalQA = ({ isLoggedIn, userData }) => {
+  const navigate = useNavigate();
+  const [situations, setSituations] = useState([]);
+  const [visibleSuggestions, setVisibleSuggestions] = useState({});
+  const [situationData, setSituationData] = useState({ title: "", description: "" });
+  const [showForm, setShowForm] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [suggestion, setSuggestion] = useState(null);
 
   useEffect(() => {
-    setTriggerRender(prev => prev + 1); // Trigger re-render when login state changes
-  }, [userData, isLoggedIn]);
+    fetchSituations();
+  }, []);
 
-  const toggleAnswers = (id) => {
-    setVisibleAnswers((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
-
-  const handleAnswerChange = (questionId, value) => {
-    setNewAnswers((prev) => ({ ...prev, [questionId]: value }));
-  };
-
-  const handleLawTypeChange = (questionId, value) => {
-    setSelectedLawTypes((prev) => ({ ...prev, [questionId]: value }));
-  };
-
-  const submitAnswer = (questionId) => {
-    if (!newAnswers[questionId]?.trim()) return;
-
-    const newAnswerObj = {
-      id: Date.now(),
-      answer: newAnswers[questionId],
-      answeredBy: userData?.name || "Anonymous",
-      lawType: selectedLawTypes[questionId] || "Common Law",
-    };
-
-    setQuestions((prevQuestions) =>
-      prevQuestions.map((q) =>
-        q.id === questionId ? { ...q, responses: [...q.responses, newAnswerObj] } : q
-      )
-    );
-    setNewAnswers((prev) => ({ ...prev, [questionId]: "" }));
-  };
-
-  const deleteQuestion = (questionId) => {
-    setQuestions((prevQuestions) => prevQuestions.filter((q) => q.id !== questionId));
-  };
-
-  const deleteAnswer = (questionId, answerId) => {
-    setQuestions((prevQuestions) =>
-      prevQuestions.map((q) =>
-        q.id === questionId
-          ? { ...q, responses: q.responses.filter((r) => r.id !== answerId) }
-          : q
-      )
-    );
-  };
-
-  const editAnswer = (questionId, answerId) => {
-    const newAnswerText = prompt("Edit your answer: ");
-    if (newAnswerText) {
-      setQuestions((prevQuestions) =>
-        prevQuestions.map((q) =>
-          q.id === questionId
-            ? {
-                ...q,
-                responses: q.responses.map((r) =>
-                  r.id === answerId ? { ...r, answer: newAnswerText } : r
-                ),
-              }
-            : q
-        )
+  const fetchSituations = async () => {
+    try {
+      const response = await axios.get(
+        "https://rrn24.techchantier.com/Legal_First_Aid/public/api/situations"
       );
+      if (response.data.success && Array.isArray(response.data.data)) {
+        setSituations(response.data.data);
+      } else {
+        console.error("Unexpected response format:", response.data);
+        setSituations([]);
+      }
+    } catch (error) {
+      console.error("Error fetching situations:", error);
+      setSituations([]);
     }
   };
 
-  const editQuestion = (questionId) => {
-    const newQuestionText = prompt("Edit your question: ");
-    if (newQuestionText) {
-      setQuestions((prevQuestions) =>
-        prevQuestions.map((q) =>
-          q.id === questionId ? { ...q, question: newQuestionText } : q
-        )
+  const fetchSuggestionById = async (id) => {
+    try {
+      const response = await axios.get(
+        `https://rrn24.techchantier.com/Legal_First_Aid/public/api/situations/${id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        }
       );
+      if (response.data.success) {
+        setSuggestion(response.data.data);
+        console.log("Fetched suggestion:", response.data.data);
+      } else {
+        console.error("Failed to fetch suggestion:", response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching suggestion:", error);
+    }
+  };
+
+  const postSituation = async () => {
+    if (!situationData.title.trim() || !situationData.description.trim()) {
+      setErrorMessage("Title and description are required.");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        console.error("No token found. Redirecting to login.");
+        navigate("/login");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("title", situationData.title);
+      formData.append("description", situationData.description);
+
+      const response = await axios.post(
+        "https://rrn24.techchantier.com/Legal_First_Aid/public/api/situations",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response.data.success) {
+        console.log("Situation successfully posted:", response.data.data);
+        setSituations((prevSituations) => [response.data.data, ...prevSituations]); // Add the new situation to the top
+        setSituationData({ title: "", description: "" });
+        setShowForm(false);
+        setErrorMessage("");
+      } else {
+        console.error("Failed to post situation:", response.data.message);
+        setErrorMessage("Failed to post situation. Please try again.");
+      }
+    } catch (error) {
+      if (error.response?.status === 401) {
+        console.error("Unauthorized. Redirecting to login.");
+        localStorage.clear(); // Clear invalid token
+        navigate("/login");
+      } else {
+        console.error("Error posting situation:", error);
+        setErrorMessage("Failed to post situation. Please try again.");
+      }
+    }
+  };
+
+  const toggleSuggestions = (id) => {
+    setVisibleSuggestions((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const handleAskSituation = () => {
+    if (!isLoggedIn) {
+      navigate("/login");
+    } else {
+      setShowForm(true);
     }
   };
 
   return (
-    <div className="container" key={triggerRender}>
-      <h1>Legal Q&A</h1>
-      {isLoggedIn && (
-        <div className="question-input">
-          <textarea
+    <div className="container">
+      <h1>Legal Situations</h1>
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+      <div className="post-box">
+        {!showForm ? (
+          <input
+            type="text"
             className="textarea"
-            value={newQuestion}
-            onChange={(e) => setNewQuestion(e.target.value)}
-            placeholder="Ask a legal question..."
+            placeholder="Get Suggestions"
+            onFocus={handleAskSituation}
           />
-          <button 
-            className="submit-button" 
-            onClick={() => {
-              if (newQuestion.trim()) {
-                onSubmitQuestion(newQuestion, userData?.name || "Anonymous");
-                setNewQuestion("");
+        ) : (
+          <div className="question-form">
+            <input
+              type="text"
+              className="textarea"
+              value={situationData.title}
+              onChange={(e) =>
+                setSituationData({ ...situationData, title: e.target.value })
               }
-            }}
-          >
-            Submit Question
-          </button>
+              placeholder="Enter situation title..."
+            />
+            <textarea
+              className="textarea"
+              value={situationData.description}
+              onChange={(e) =>
+                setSituationData({ ...situationData, description: e.target.value })
+              }
+              placeholder="Enter situation description..."
+            />
+            <button className="submit-btn" onClick={postSituation}>
+              Submit Situation
+            </button>
+            <button
+              className="cancel-btn"
+              onClick={() => {
+                setShowForm(false);
+                setSituationData({ title: "", description: "" });
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        )}
+      </div>
+
+      <button
+        className="fetch-suggestion-btn"
+        onClick={() => fetchSuggestionById(2)} // Example: Fetch suggestion with ID 2
+      >
+        Fetch Suggestion
+      </button>
+
+      {suggestion && (
+        <div className="suggestion-box">
+          <h2>{suggestion.title}</h2>
+          <p>{suggestion.description}</p>
+          {suggestion.image && <img src={suggestion.image} alt="Suggestion" />}
+          <p>Created At: {new Date(suggestion.created_at).toLocaleString()}</p>
         </div>
       )}
 
-      {questions.map(({ id, question, askedBy, responses }) => (
-        <div key={id} className="question-box">
-          <h2 className="question-title">{question}</h2>
-          <p className="asked-by">Asked by: {askedBy || "Anonymous"}</p>
-
-          {isLoggedIn && userData?.name === askedBy && (
-            <div className="action-buttons">
-              <button onClick={() => editQuestion(id)}>Edit Question</button>
-              <button onClick={() => deleteQuestion(id)}>Delete Question</button>
+      {situations.map(({ id, title, description, created_at }) => (
+        <div key={id} className="post-container">
+          <div className="post-header">
+            <div className="avatar">{title.charAt(0)}</div>
+            <div className="user-info">
+              <h3>{title}</h3>
+              <p>Posted on: {new Date(created_at).toLocaleString()}</p>
             </div>
-          )}
-
-          <button className="button" onClick={() => toggleAnswers(id)}>
-            {visibleAnswers[id] ? "Hide Answers" : "Show Answers"}
+          </div>
+          <p className="post-content">{description}</p>
+          <button className="toggle-btn" onClick={() => toggleSuggestions(id)}>
+            {visibleSuggestions[id] ? "Hide Suggestions" : "Show Suggestions"}
           </button>
-
-          {visibleAnswers[id] && (
-            <>
-              <div className="answer-section">
-                {responses.map(({ id: answerId, answer, answeredBy, lawType }) => (
-                  <div key={answerId} className="answer-box">
-                    <p className="answer-text">{answer}</p>
-                    <p className="answered-by">
-                      <strong>Answered by:</strong> {answeredBy || "Anonymous"} | <strong>Law Type:</strong>{" "}
-                      <span className={lawType === "Common Law" ? "common-law" : "civil-law"}>
-                        {lawType}
-                      </span>
-                    </p>
-
-                    {isLoggedIn && userData?.role === "lawyer" && (
-                      <div className="action-buttons">
-                        <button onClick={() => editAnswer(id, answerId)}>Edit Answer</button>
-                        <button onClick={() => deleteAnswer(id, answerId)}>Delete Answer</button>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-
-              {isLoggedIn && userData?.role === "lawyer" && (
-                <div className="answer-input">
-                  <textarea
-                    className="textarea"
-                    value={newAnswers[id] || ""}
-                    onChange={(e) => handleAnswerChange(id, e.target.value)}
-                    placeholder="Write your answer here..."
-                  />
-                  <select
-                    className="select"
-                    value={selectedLawTypes[id] || "Common Law"}
-                    onChange={(e) => handleLawTypeChange(id, e.target.value)}
-                  >
-                    <option value="Common Law">Common Law</option>
-                    <option value="Civil Law">Civil Law</option>
-                  </select>
-                  <button className="submit-button" onClick={() => submitAnswer(id)}>
-                    Submit Answer
-                  </button>
-                </div>
-              )}
-            </>
-          )}
         </div>
       ))}
     </div>

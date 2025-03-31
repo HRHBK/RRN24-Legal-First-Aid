@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { FaHome, FaInfoCircle, FaSearch } from "react-icons/fa";
 import axios from "axios";
-import { FaBars, FaTimes } from "react-icons/fa"; // Import icons for the menu
 import "./Navbar.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState({ name: "", photo: "" });
-  const [menuOpen, setMenuOpen] = useState(false); // State for mobile menu
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -22,18 +22,16 @@ const Navbar = () => {
   }, []);
 
   const handleLogout = async () => {
-    const token = localStorage.getItem("authToken");
-
-    if (!token) {
-      console.error("No token found. Redirecting to login.");
-      setIsLoggedIn(false);
-      navigate("/login");
-      return;
-    }
-
     try {
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        console.error("No token found. Redirecting to login.");
+        navigate("/login");
+        return;
+      }
+
       await axios.post(
-        "https://rrn24.techchantier.site/Legal_First_Aid/public/api/logout",
+        "https://rrn24.techchantier.com/Legal_First_Aid/public/api/logout",
         {},
         {
           headers: {
@@ -41,62 +39,79 @@ const Navbar = () => {
           },
         }
       );
+      localStorage.clear();
+      setIsLoggedIn(false);
+      navigate("/");
     } catch (error) {
-      console.error("Error during logout:", error.response?.data || error.message);
+      console.error("Error logging out:", error);
+      if (error.response?.status === 401) {
+        console.error("Unauthorized. Redirecting to login.");
+        localStorage.clear();
+        navigate("/login");
+      }
     }
-
-    // Clear user session
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("userRole");
-    localStorage.removeItem("userEmail");
-    localStorage.removeItem("userName");
-    localStorage.removeItem("userPhoto");
-
-    setIsLoggedIn(false);
-    setUserData({ name: "", photo: "" });
-
-    navigate("/");
   };
 
-  // Extract the first two letters of the user's name (default to "??" if no name)
-  const userInitials = userData.name
-    ? userData.name.slice(0, 2).toUpperCase()
-    : "??";
+  const handleSearch = (e) => {
+    e.preventDefault();
+    console.log("Search term:", searchTerm);
+  };
+
+  const getInitials = (name) => {
+    return name
+      .split(" ")
+      .map((part) => part.charAt(0).toUpperCase())
+      .join("");
+  };
 
   return (
     <nav className="nav">
-      <div className="nav-logo">
-        <Link to="/">Legal First Aid</Link>
+      {/* Left Section: Logo */}
+      <div className="nav-left">
+        <img src="src\assets\mylogo.webp" alt="Logo" className="logo-image" />
+        <Link to="/" className="logo-title">Legal First Aid</Link>
       </div>
 
-      {/* Hamburger Menu Icon */}
-      <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
-        {menuOpen ? <FaTimes /> : <FaBars />}
+      {/* Center Section: Nav Links and Search */}
+      <div className="nav-center">
+        <Link to="/home" title="Home" className="nav-link">
+          <FaHome />
+        </Link>
+        <Link to="/about" title="About" className="nav-link">
+          <FaInfoCircle />
+        </Link>
+        <form className="nav-search" onSubmit={handleSearch}>
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button type="submit">
+            <FaSearch />
+          </button>
+        </form>
       </div>
 
-      {/* Navigation Menu */}
-      <div className={`nav-menu ${menuOpen ? "active" : ""}`}>
-        <Link to="/home" onClick={() => setMenuOpen(false)}>Home</Link>
-        <Link to="/about" onClick={() => setMenuOpen(false)}>About</Link>
-        <Link to="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
-        <Link to="/termsofservice" onClick={() => setMenuOpen(false)}>Terms of Sevice</Link>
-      </div>
-
-      {/* User Info Section */}
-      <div className="user-info">
+      {/* Right Section: Profile or Login/Logout */}
+      <div className="nav-right">
         {isLoggedIn ? (
-          <>
-            <div className="user-profile">
-              {userData.photo ? (
-                <img src={userData.photo} alt="User" className="user-image" />
-              ) : (
-                <div className="user-initials">{userInitials}</div>
-              )}
-            </div>
+          <div className="user-profile">
+            {userData.photo ? (
+              <img
+                src={userData.photo}
+                alt="User Profile"
+                className="profile-image"
+              />
+            ) : (
+              <div className="profile-initials">
+                {getInitials(userData.name || "User")}
+              </div>
+            )}
             <button className="nav-logout" onClick={handleLogout}>
               Logout
             </button>
-          </>
+          </div>
         ) : (
           <Link to="/login" className="nav-login">
             Login

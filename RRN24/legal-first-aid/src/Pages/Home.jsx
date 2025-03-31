@@ -2,16 +2,17 @@ import React, { useState, useEffect } from 'react';
 import Header from '../Components/Home/Header.jsx';
 import Hero from '../Components/Home/Hero.jsx';
 import Features from '../Components/Home/Features.jsx';
-import FAQ from '../Components/Home/Faq.jsx';
 import Footer from '../Components/Home/Footer.jsx';
 import './Home.css';
 import PageLayout from '../Components/PageLayout.jsx';
 import LegalQA from '../Components/LegalQA.jsx';
+import SidebarFooter from '../Components/SidebarFooter.jsx';
 import legalQuestions from '../Components/Data'; // Import existing questions
 
 const Home = () => {
   const [questions, setQuestions] = useState(legalQuestions);
   const [userData, setUserData] = useState(null); // Add state for userData
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // Retrieve user data from localStorage when the component mounts
   useEffect(() => {
@@ -31,6 +32,7 @@ const Home = () => {
         photo: userPhoto,
         userId: userId,
       });
+      setIsLoggedIn(true);
     }
   }, []); // Empty dependency array ensures this runs only once on mount
 
@@ -55,9 +57,26 @@ const Home = () => {
   return (
     <div className="home">
       <PageLayout>
-        <Hero onSubmitQuestion={handleQuestionSubmit} userData={userData} />
-        <LegalQA questions={questions} setQuestions={setQuestions} onSubmitQuestion={handleQuestionSubmit} userData={userData} />
-        <FAQ />
+        <div className="home-layout">
+          <aside className="sidebar">
+            <SidebarFooter
+              isLoggedIn={isLoggedIn}
+              userData={userData}
+              onSubmitQuestion={handleQuestionSubmit}
+            />
+          </aside>
+          <main className="feed">
+            <div className="merged-content">
+              <LegalQA
+                questions={questions}
+                setQuestions={setQuestions}
+                onSubmitQuestion={handleQuestionSubmit}
+                userData={userData}
+                isLoggedIn={isLoggedIn}
+              />
+            </div>
+          </main>
+        </div>
         <Features />
       </PageLayout>
     </div>

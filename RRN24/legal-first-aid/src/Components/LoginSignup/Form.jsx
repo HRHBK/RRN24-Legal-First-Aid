@@ -67,15 +67,19 @@ const Form = () => {
 
         try {
             if (isLogin) {
-                const response = await axios.post('https://rrn24.techchantier.site/Legal_First_Aid/public/api/login', {
-                    email: values.email,
-                    password: values.password,
-                }, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
+                const response = await axios.post(
+                    "https://rrn24.techchantier.com/Legal_First_Aid/public/api/login",
+                    {
+                        email: values.email,
+                        password: values.password,
+                    },
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                            Accept: "application/json",
+                        },
                     }
-                });
+                );
 
                 console.log("Login successful:", response.data);
 
@@ -103,11 +107,15 @@ const Form = () => {
                     formData.append('image', values.image);
                 }
 
-                const response = await axios.post('https://rrn24.techchantier.site/Legal_First_Aid/public/api/register', formData, {
-                    headers: {
-                        'Accept': 'application/json'
+                const response = await axios.post(
+                    "https://rrn24.techchantier.com/Legal_First_Aid/public/api/register",
+                    formData,
+                    {
+                        headers: {
+                            Accept: "application/json",
+                        },
                     }
-                });
+                );
 
                 console.log("Registration successful:", response.data);
 
@@ -201,9 +209,9 @@ const Form = () => {
                         </div>
 
                         <p>
-                            {isLogin ? "Don't have an account?" : "Already have an account?"}  
-                            <a 
-                                href='#' 
+                            {isLogin ? "Don't have an account?" : "Already have an account?"}
+                            <a
+                                href='#'
                                 onClick={() => {
                                     setIsLogin(!isLogin);
                                     if (isLogin) {

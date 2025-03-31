@@ -8,4 +8,6 @@
   align-items: center;
   padding: none;
   object-fit: cover;
+  background: linear-gradient(to bottom, #f3f2ef, #e9e5df);
+  /* LinkedIn-like gradient */
 }
