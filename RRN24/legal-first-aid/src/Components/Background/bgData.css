@@ -1,28 +1,36 @@
-.data{
+.data {
     margin: 0px 0px;
     margin-top: 150px;
 }
-.bgText{
-   color: white;
-   font-size: 110px;
-   font-weight: 500;
-   line-height: 130px;  
+
+.bgText {
+    color: white;
+    font-size: 110px;
+    font-weight: 500;
+    line-height: 130px;
 }
-.bg-dot-play{
+
+.bg-dot-play {
     margin-left: 130px;
-    margin-right: 13x;
+    margin-right: 13px;
     margin-top: 12px;
     margin-bottom: 12px;
     display: flex;
-    justify-content: spave-between;
+    justify-content: space-between;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Transparent background */
+    padding: 10px;
+    border-radius: 10px;
 }
-.bg-dots{
+
+.bg-dots {
     display: flex;
     align-items: center;
     gap: 23px;
     list-style: none;
 }
-.bg-dot{
+
+.bg-dot {
     width: 15px;
     height: 15px;
     background: #fff;
@@ -30,6 +38,6 @@
     cursor: pointer;
 }
 
-.bg-dot.orange{
+.bg-dot.orange {
     background: orangered;
 }

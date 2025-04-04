@@ -3,17 +3,36 @@
     width: 100%;
     margin: 0 auto;
     padding: 40px 20px;
-    background-color: white;
+    background-color: transparent;
+    /* Set background to transparent */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.features-container h2 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    color: #0073b1;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+    /* Add text shadow for visibility */
+    text-align: center;
+    font-weight: bold;
+}
+
 .features {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    /* Three columns per row */
+    grid-template-rows: repeat(2, auto);
+    /* Limit to two rows */
     grid-gap: 20px;
-    width: 50%;
-    /*animation: scroll 80s linear infinite;*/
+    width: 100%;
+    max-height: calc(2 * 200px + 20px);
+    /* Limit height to two rows with gap */
+    overflow: hidden;
+    /* Hide extra content */
+    background-color: transparent;
+    /* Set background to transparent */
 }
 
 .feature {

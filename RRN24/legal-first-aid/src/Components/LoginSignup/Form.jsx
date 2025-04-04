@@ -81,9 +81,9 @@ const Form = () => {
                     }
                 );
 
-                console.log("Login successful:", response.data);
+                console.log("Login Response:", response.data); // Debugging line
 
-                localStorage.setItem("authToken", response.data.access_token);
+                localStorage.setItem("authToken", response.data.token || response.data.access_token);
                 localStorage.setItem("userRole", response.data.user.role);
                 localStorage.setItem("userName", response.data.user.name);
                 localStorage.setItem("userEmail", response.data.user.email);
@@ -117,9 +117,9 @@ const Form = () => {
                     }
                 );
 
-                console.log("Registration successful:", response.data);
+                console.log("Registration Response:", response.data); // Debugging line
 
-                localStorage.setItem("authToken", response.data.access_token);
+                localStorage.setItem("authToken", response.data.token || response.data.access_token);
                 localStorage.setItem("userRole", response.data.user.role);
                 localStorage.setItem("userName", response.data.user.name);
                 localStorage.setItem("userEmail", response.data.user.email);
@@ -130,7 +130,8 @@ const Form = () => {
                 setIsLogin(true);
             }
         } catch (error) {
-            console.error("Error:", error.response?.data || error.message);
+            console.error("Error Response:", error.response ? error.response.data : error);
+
             if (error.response) {
                 const responseData = error.response.data;
                 if (responseData.errors) {
@@ -148,93 +149,90 @@ const Form = () => {
     return (
         <div className='form'>
             <div className='form-wrapper'>
-                <div className='container'>
-                    <h1 className='heading'>{isLogin ? 'Login' : 'Sign Up'}</h1>
+                <h1 className='heading'>{isLogin ? 'Login' : 'Sign Up'}</h1>
 
-                    {serverError && <p className='error-message'>{serverError}</p>}
+                {serverError && <p className='error-message'>{serverError}</p>}
 
-                    <form onSubmit={handleSubmit}>
-                        <div className='inputs'>
-                            {!isLogin && (
+                <form onSubmit={handleSubmit}>
+                    {!isLogin && (
+                        <>
+                            <label htmlFor='name'>Full Name*</label>
+                            <input type='text' id='name' name='name' required onChange={handleChanges} value={values.name} />
+
+                            <label htmlFor='role'>Role*</label>
+                            <select id='role' name='role' onChange={handleChanges} value={values.role}>
+                                <option value='normal_user'>Normal User</option>
+                                <option value='lawyer'>Lawyer</option>
+                            </select>
+
+                            {values.role === 'lawyer' && (
                                 <>
-                                    <label htmlFor='name'>Full Name*</label>
-                                    <input type='text' id='name' name='name' required onChange={handleChanges} value={values.name} />
-                                    <label htmlFor='role'>Role*</label>
-                                    <select id='role' name='role' onChange={handleChanges} value={values.role}>
-                                        <option value='normal_user'>Normal User</option>
-                                        <option value='lawyer'>Lawyer</option>
-                                    </select>
-
-                                    {values.role === 'lawyer' && (
-                                        <>
-                                            <label htmlFor="matricule">Matricule*</label>
-                                            <input
-                                                type="text"
-                                                id="matricule"
-                                                name="matricule"
-                                                onChange={handleChanges}
-                                                value={values.matricule}
-                                                required
-                                            />
-                                            {errors.matricule && <p className='error-message'>{errors.matricule}</p>}
-                                        </>
-                                    )}
-
-                                    <label htmlFor="image">Profile Picture*</label>
+                                    <label htmlFor="matricule">Matricule*</label>
                                     <input
-                                        type="file"
-                                        id="image"
-                                        name="image"
-                                        accept="image/*"
+                                        type="text"
+                                        id="matricule"
+                                        name="matricule"
                                         onChange={handleChanges}
+                                        value={values.matricule}
+                                        required
                                     />
+                                    {errors.matricule && <p className='error-message'>{errors.matricule}</p>}
                                 </>
                             )}
 
-                            <label htmlFor='email'>Email*</label>
-                            <input type='email' id='email' name='email' required onChange={handleChanges} value={values.email} />
-                            {errors.email && <p className='error-message'>{errors.email}</p>}
+                            <label htmlFor="image">Profile Picture*</label>
+                            <input
+                                type="file"
+                                id="image"
+                                name="image"
+                                accept="image/*"
+                                onChange={handleChanges}
+                            />
+                        </>
+                    )}
 
-                            <label htmlFor='password'>Password*</label>
-                            <input type='password' id='password' name='password' required onChange={handleChanges} value={values.password} />
-                            {errors.password && <p className='error-message'>{errors.password}</p>}
+                    <label htmlFor='email'>Email*</label>
+                    <input type='email' id='email' name='email' required onChange={handleChanges} value={values.email} />
+                    {errors.email && <p className='error-message'>{errors.email}</p>}
 
-                            {!isLogin && (
-                                <>
-                                    <label htmlFor='password_confirmation'>Confirm Password*</label>
-                                    <input type='password' id='password_confirmation' name='password_confirmation' required onChange={handleChanges} value={values.password_confirmation} />
-                                    {errors.password_confirmation && <p className='error-message'>{errors.password_confirmation}</p>}
-                                </>
-                            )}
-                        </div>
+                    <label htmlFor='password'>Password*</label>
+                    <input type='password' id='password' name='password' required onChange={handleChanges} value={values.password} />
+                    {errors.password && <p className='error-message'>{errors.password}</p>}
 
-                        <p>
-                            {isLogin ? "Don't have an account?" : "Already have an account?"}
-                            <a
-                                href='#'
-                                onClick={() => {
-                                    setIsLogin(!isLogin);
-                                    if (isLogin) {
-                                        setValues({
-                                            name: '',
-                                            email: '',
-                                            password: '',
-                                            password_confirmation: '',
-                                            role: 'normal_user',
-                                            matricule: '',
-                                            image: null
-                                        });
-                                        setServerError(''); // Clear server errors
-                                    }
-                                }}
-                            >
-                                {isLogin ? 'Sign Up' : 'Login'}
-                            </a>
-                        </p>
+                    {!isLogin && (
+                        <>
+                            <label htmlFor='password_confirmation'>Confirm Password*</label>
+                            <input type='password' id='password_confirmation' name='password_confirmation' required onChange={handleChanges} value={values.password_confirmation} />
+                            {errors.password_confirmation && <p className='error-message'>{errors.password_confirmation}</p>}
+                        </>
+                    )}
 
-                        <button type='submit'>{isLogin ? 'Login' : 'Register'}</button>
-                    </form>
-                </div>
+                    <p>
+                        {isLogin ? "Don't have an account?" : "Already have an account?"}
+                        <a
+                            href='#'
+                            onClick={() => {
+                                setIsLogin(!isLogin);
+                                if (isLogin) {
+                                    setValues({
+                                        name: '',
+                                        email: '',
+                                        password: '',
+                                        password_confirmation: '',
+                                        role: 'normal_user',
+                                        matricule: '',
+                                        image: null
+                                    });
+                                    setServerError('');
+                                }
+                            }}
+                        >
+                            {isLogin ? 'Sign Up' : 'Login'}
+                        </a>
+                    </p>
+
+                    <button type="submit">{isLogin ? "Login" : "Register"}</button>
+                </form>
             </div>
         </div>
     );

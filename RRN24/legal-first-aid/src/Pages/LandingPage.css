@@ -1,72 +1,500 @@
-
-
 .login-background {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-size: cover;
-    background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
 }
 
+.landing-page {
+  font-family: Arial, sans-serif;
+  color: white;
+  /* Ensure text is visible on the background */
+  background: transparent;
+  /* Keep background transparent */
+}
+
+.hero-section {
+  text-align: center;
+  padding: 100px 20px;
+  /* Increased padding for better spacing */
+  background: transparent;
+  /* Keep background transparent */
+  color: white;
+  position: relative;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  /* Darker overlay for better text contrast */
+  z-index: 1;
+}
+
+.hero-section h1,
+.hero-section p,
+.hero-section .cta-button {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-section h1 {
+  font-size: 3.5rem;
+  /* Increased font size for better visibility */
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  /* Add text shadow for visibility */
+}
+
+.hero-section p {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  /* Add text shadow for visibility */
+}
+
+.cta-button {
+  padding: 15px 40px;
+  background-color: #007bff; /* Match the background color of other buttons */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.cta-button:hover {
+  background-color: #0056b3; /* Match the hover effect of other buttons */
+}
+
+button,
+.cta-button {
+  background-color: black;
+  /* Set background to black */
+  color: white;
+  /* Set text color to white */
+  border: none;
+  cursor: pointer;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  transition: none;
+  /* Remove hover effect */
+}
+
+button:hover,
+.cta-button:hover {
+  background-color: black;
+  /* Keep background black */
+  color: white;
+  /* Keep text white */
+}
+
+.about-section {
+  margin: 0 20px; /* Add margin to the left and right */
+  text-align: center; /* Center-align text */
+  padding: 60px 20px;
+  background: rgba(255, 255, 255, 0.9);
+  /* Add a semi-transparent white background for better contrast */
+  color: #333;
+  /* Ensure text is dark for readability */
+  border-radius: 10px;
+  /* Add rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  /* Add subtle shadow */
+}
+
+.about-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #0073b1;
+  /* Retain the primary color for headings */
+  text-shadow: none;
+  /* Remove text shadow for clarity */
+}
+
+.about-section p {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  margin-bottom: 30px;
+  color: #555;
+  /* Slightly darker text for better readability */
+  text-shadow: none;
+  /* Remove text shadow for clarity */
+}
+
+.features-section,
+.cta-section,
+.team-section {
+  text-align: center;
+  padding: 60px 20px;
+  background: transparent;
+  /* Keep background transparent */
+  color: white;
+  /* Ensure text is visible */
+}
+
+.features-section h2,
+.cta-section h2,
+.team-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #0073b1;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  /* Add text shadow for visibility */
+}
+
+.features-section p,
+.cta-section p,
+.team-section p {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  margin-bottom: 30px;
+  color: #ddd;
+  /* Slightly lighter text for better readability */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  /* Add text shadow for visibility */
+}
+
+.features {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.1);
+  /* Transparent card background */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 300px;
+  color: white;
+}
+
+.feature-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #0073b1;
+}
+
+.feature-card p {
+  font-size: 1rem;
+  color: #ddd;
+  /* Slightly lighter text for better readability */
+}
+
+.features-section .features-container {
+  background-color: white;
+  /* Set background to white */
+  color: black;
+  /* Set text color to black */
+  border-radius: 10px;
+  /* Add rounded corners */
+  padding: 20px;
+  /* Add padding for spacing */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  /* Add subtle shadow */
+}
+
+.features-section .feature {
+  background-color: white;
+  /* Ensure individual feature cards have white background */
+  color: black;
+  /* Ensure text is black */
+}
+
+.features-section .feature-icon {
+  color: #0073b1;
+  /* Retain the icon color */
+}
+
+.cta-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.cta-section p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.cta-section .cta-button {
+  padding: 12px 30px;
+  background-color: black;
+  /* Set background to black */
+  color: white;
+  /* Set text color to white */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: none;
+  /* Remove hover effect */
+}
+
+.cta-section .cta-button:hover {
+  background-color: black;
+  /* Keep background black */
+  color: white;
+  /* Keep text white */
+}
+
+.team-members {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.team-member {
+  text-align: center;
+  width: 200px;
+}
+
+.team-member img {
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.team-member h3 {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+  color: #0073b1;
+}
+
+.team-member p {
+  font-size: 1rem;
+  color: #ddd;
+  /* Slightly lighter text for better readability */
+}
+
+.testimonials-section {
+  padding: 60px 20px;
+  text-align: center;
+  background: transparent;
+  /* Keep background transparent */
+}
+
+.testimonials-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #0073b1;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  /* Add text shadow for visibility */
+}
+
+.testimonials {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.testimonial-card {
+  background: #ffffff;
+  /* LinkedIn white background */
+  color: #000000;
+  /* LinkedIn black text */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  max-width: 300px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.testimonial-card p {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: #000000;
+  /* LinkedIn black text */
+}
+
+.testimonial-card h4 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #0073b1;
+  margin-top: 10px;
+}
+
+.sponsors-section {
+  text-align: center;
+  padding: 60px 20px;
+  background: transparent;
+  /* Keep background transparent */
+}
+
+.sponsors-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #0073b1;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  /* Add text shadow for visibility */
+}
+
+.sponsors-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.sponsors-logos img {
+  max-width: 150px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.sponsors-logos img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .sponsors-logos img {
+    max-width: 100px;
+  }
+}
 
 @media (max-width: 1200px) {
-    .nav {
-        margin: 20px 60px;
-    }
+  .nav {
+    margin: 20px 60px;
+  }
 
-    .nav-logo {
-        font-size: 36px;
-    }
+  .nav-logo {
+    font-size: 36px;
+  }
 
-    .nav-menu {
-        font-size: 24px;
-        gap: 15px;
-    }
+  .nav-menu {
+    font-size: 24px;
+    gap: 15px;
+  }
 
-    .nav-login {
-        padding: 8px 30px;
-    }
+  .nav-login {
+    padding: 8px 30px;
+  }
 }
 
 @media (max-width: 768px) {
-    .nav {
-        margin: 10px 30px;
-        flex-direction: column;
-        align-items: flex-start;
-    }
+  .nav {
+    margin: 10px 30px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-    .nav-logo {
-        font-size: 30px;
-    }
+  .nav-logo {
+    font-size: 30px;
+  }
 
-    .nav-menu {
-        font-size: 20px;
-        gap: 10px;
-        flex-direction: column;
-        align-items: flex-start;
-    }
+  .nav-menu {
+    font-size: 20px;
+    gap: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-    .nav-login {
-        padding: 6px 20px;
-    }
+  .nav-login {
+    padding: 6px 20px;
+  }
+
+  .about-highlights {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .highlight-card {
+    width: 90%;
+  }
+
+  .features {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .team-members {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .testimonials {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .testimonial-card {
+    max-width: 90%;
+  }
+
+  .hero-section h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero-section p {
+    font-size: 1.2rem;
+  }
+
+  .cta-button {
+    font-size: 1rem;
+    padding: 10px 30px;
+  }
+
+  .about-section h2,
+  features-section h2,
+  .cta-section h2,
+  .team-section h2 {
+    font-size: 2rem;
+  }
+
+  .about-section p,
+  .features-section p,
+  .cta-section p,
+  .team-section p {
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
-    .nav {
-        margin: 5px 15px;
-    }
+  .nav {
+    margin: 5px 15px;
+  }
 
-    .nav-logo {
-        font-size: 24px;
-    }
+  .nav-logo {
+    font-size: 24px;
+  }
 
-    .nav-menu {
-        font-size: 18px;
-        gap: 8px;
-    }
+  .nav-menu {
+    font-size: 18px;
+    gap: 8px;
+  }
 
-    .nav-login {
-        padding: 4px 15px;
-    }
+  .nav-login {
+    padding: 4px 15px;
+  }
+}
+
+h1, h2, h3 {
+  text-align: center; /* Center-align all headings */
 }

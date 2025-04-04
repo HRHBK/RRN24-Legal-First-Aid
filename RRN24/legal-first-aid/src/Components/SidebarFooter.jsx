@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./SidebarFooter.css";
 
 const SidebarFooter = ({ isLoggedIn, userData, onSubmitQuestion }) => {
@@ -11,6 +12,14 @@ const SidebarFooter = ({ isLoggedIn, userData, onSubmitQuestion }) => {
         image: null,
     });
 
+    const getInitials = (name) => {
+        if (!name) return "?";
+        return name
+            .split(" ")
+            .map((part) => part.charAt(0).toUpperCase())
+            .join("");
+    };
+
     const handleInputChange = (e) => {
         const { name, value, files } = e.target;
         if (name === "image") {
@@ -20,16 +29,49 @@ const SidebarFooter = ({ isLoggedIn, userData, onSubmitQuestion }) => {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (questionData.title.trim() || questionData.description.trim()) {
-            onSubmitQuestion({
-                ...questionData,
-                askedBy: userData?.name || "Anonymous",
-                timestamp: new Date().toISOString(),
-            });
-            setQuestionData({ title: "", description: "", image: null });
-            setShowForm(false);
+
+        if (!questionData.title.trim() || !questionData.description.trim()) {
+            console.error("Title and description are required.");
+            return;
+        }
+
+        try {
+            const token = localStorage.getItem("authToken");
+
+            if (!token) {
+                console.error("No token found. Redirecting to login.");
+                navigate("/login");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("title", questionData.title);
+            formData.append("description", questionData.description);
+            if (questionData.image) {
+                formData.append("image", questionData.image);
+            }
+
+            const response = await axios.post(
+                "https://rrn24.techchantier.com/Legal_First_Aid/public/api/situations",
+                formData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            if (response.status === 200 && response.data.message === "Situation created successfully") {
+                console.log("Question submitted successfully:", response.data);
+                setQuestionData({ title: "", description: "", image: null });
+                setShowForm(false);
+            } else {
+                console.error("Unexpected response:", response.data);
+            }
+        } catch (error) {
+            console.error("Error submitting question:", error.response ? error.response.data : error);
         }
     };
 
@@ -39,6 +81,10 @@ const SidebarFooter = ({ isLoggedIn, userData, onSubmitQuestion }) => {
         } else {
             setShowForm(true);
         }
+    };
+
+    const onProfileClick = () => {
+        navigate("/dashboard");
     };
 
     return (
@@ -91,12 +137,16 @@ const SidebarFooter = ({ isLoggedIn, userData, onSubmitQuestion }) => {
             )}
 
             {isLoggedIn && (
-                <div className="user-info">
-                    <img
-                        src={userData?.photo || "/path/to/default-avatar.png"}
-                        alt="User"
-                        className="user-image"
-                    />
+                <div className="user-info" onClick={onProfileClick}>
+                    {userData?.photo ? (
+                        <img
+                            src={userData.photo}
+                            alt="User"
+                            className="user-image"
+                        />
+                    ) : (
+                        <div className="user-initials">{getInitials(userData.name)}</div>
+                    )}
                     <h3>{userData?.name}</h3>
                     <p>{userData?.email}</p>
                 </div>

@@ -1,175 +1,131 @@
 .form {
     width: 100%;
     min-height: 100vh;
-    background-color: white;
-    align-items: center;
-    justify-content: center;
+    background: linear-gradient(to bottom, #f3f2ef, #e9e5df);
+    /* LinkedIn-like gradient */
     display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.form-wrapper {
+    width: 100%;
+    max-width: 500px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    font-family: Arial, sans-serif;
+}
+
+.heading {
+    text-align: center;
+    font-size: 2rem;
+    color: #0073b1;
+    margin-bottom: 20px;
+    font-weight: bold;
 }
 
 .error-message {
     color: red;
     font-size: 14px;
-    margin-top: 3px;
-}
-
-.error-input {
-    border: 1px solid red;
-    background-color: #ffe6e6;
-}
-
-.form-wrapper {
-    height: fit-content;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40%;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.container {
-    width: 400px;
-    padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.heading {
+    margin-bottom: 10px;
     text-align: center;
-    color: #333;
 }
 
-.inputs {
-    margin-bottom: 20px;
-}
-
-.inputs label {
+label {
     display: block;
-    margin: 10px 0 5px;
+    font-size: 1rem;
     font-weight: bold;
     color: #333;
+    margin-bottom: 5px;
 }
 
-.inputs input,
-.inputs select {
+input,
+select,
+textarea {
     width: 100%;
     padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
+    margin-bottom: 15px;
     border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: Arial, sans-serif;
     box-sizing: border-box;
+    transition: border-color 0.3s ease-in-out;
 }
 
-.inputs input:focus,
-.inputs select:focus {
-    border-color: #007bff;
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #0073b1;
     outline: none;
 }
 
-.error {
-    color: red;
-    font-size: 12px;
-    margin-top: -5px;
-    margin-bottom: 10px;
-}
-
-.error-input {
-    border: 1px solid red;
-}
-
-/* Centering the Login/Register Button */
 button {
-    display: block;
-    width: 100%;
-    max-width: 200px;
-    margin: 20px auto;
-    background-color: #007bff;
+    display: block; /* Ensure the button is treated as a block element */
+    margin: 0 auto; /* Center-align the button */
+    padding: 12px 20px;
+    background-color: #0073b1;
     color: white;
     border: none;
-    padding: 10px;
     border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
     cursor: pointer;
-    font-size: 16px;
-    text-align: center;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+    width: auto;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #0073b1;
+    /* Keep the same background color */
+    transform: none;
+    /* Remove scaling effect */
 }
 
 p {
     text-align: center;
+    font-size: 0.9rem;
+    color: #555;
     margin-top: 15px;
 }
 
 p a {
-    color: #007bff;
+    color: #0073b1;
     text-decoration: none;
+    font-weight: bold;
 }
 
 p a:hover {
     text-decoration: underline;
 }
 
-/* Styling for Search Field and Button */
-.search-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.search-container input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.search-container button {
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.search-container button:hover {
-    background-color: #0056b3;
-}
-
-/* Positioning the Login Button to the Right */
-.login-button-container {
-    display: flex;
-    justify-content: flex-end;
-    padding: 10px 20px;
-}
-
-.login-button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.login-button:hover {
-    background-color: #0056b3;
+.error {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: -10px;
+    margin-bottom: 10px;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
     .form-wrapper {
-        width: 60%;
+        padding: 20px;
     }
-}
 
-@media (max-width: 1024px) {
-    .form-wrapper {
-        width: 70%;
+    .heading {
+        font-size: 1.8rem;
+    }
+
+    input,
+    select,
+    textarea {
+        font-size: 0.9rem;
+    }
+
+    button {
+        font-size: 0.9rem;
     }
 }

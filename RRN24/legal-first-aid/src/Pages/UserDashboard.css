@@ -1,0 +1,298 @@
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+    background: linear-gradient(to bottom, #f3f2ef, #e9e5df);
+    /* LinkedIn-like gradient */
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    font-family: Arial, sans-serif;
+}
+
+.user-info-section {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.user-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    border: 3px solid #0073b1;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    /* Added shadow for a professional look */
+    object-fit: cover;
+    /* Ensures the image fits well within the circle */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    /* Smooth hover effect */
+}
+
+.user-avatar:hover {
+    transform: scale(1.1);
+    /* Slight zoom effect on hover */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    /* Enhanced shadow on hover */
+}
+
+.user-initials {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #0073b1;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.user-info-section h2 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.user-info-section p {
+    font-size: 16px;
+    color: gray;
+}
+
+.user-role {
+    font-size: 14px;
+    color: #0073b1;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.dashboard-nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.dashboard-nav button {
+    padding: 8px 16px;
+    /* Reduced padding */
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    /* Reduced font size */
+    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.dashboard-nav button.active {
+    background: #0073b1;
+    transform: scale(1.05);
+}
+
+.dashboard-nav button:hover {
+    background: #0056b3;
+    transform: scale(1.05);
+}
+
+.dashboard-content {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    /* Center all content */
+}
+
+.situation-card,
+.notification-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    width: 100%;
+    max-width: 600px;
+    /* Center content with a fixed max width */
+    text-align: center;
+}
+
+.situation-card:hover,
+.notification-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.situation-card h4,
+.notification-card p {
+    font-size: 20px;
+    color: #0073b1;
+    margin-bottom: 10px;
+}
+
+.situation-card p,
+.notification-card p {
+    font-size: 16px;
+    color: #333;
+}
+
+.timestamp {
+    font-size: 14px;
+    color: gray;
+    margin-top: 10px;
+}
+
+.responses {
+    margin-top: 15px;
+}
+
+.response {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.quick-links {
+    margin-top: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: none;
+    /* Removed shadow */
+}
+
+.quick-links h4 {
+    font-size: 18px;
+    color: #0073b1;
+    margin-bottom: 10px;
+}
+
+.quick-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.quick-links ul li {
+    margin-bottom: 5px;
+}
+
+.quick-links ul li a {
+    color: #0073b1;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.quick-links ul li a:hover {
+    text-decoration: underline;
+}
+
+.question-form button {
+    padding: 8px 16px;
+    /* Reduced padding */
+    font-size: 14px;
+    /* Reduced font size */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.question-form button.cancel-btn {
+    background-color: #ccc;
+    color: black;
+}
+
+.question-form button:hover {
+    opacity: 0.9;
+}
+
+.overview-section {
+    text-align: center;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.overview-section h3 {
+    font-size: 24px;
+    color: #0073b1;
+    margin-bottom: 10px;
+}
+
+.overview-section p {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.overview-stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background: #f3f2ef;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 150px;
+}
+
+.stat-card h4 {
+    font-size: 16px;
+    color: #0073b1;
+    margin-bottom: 5px;
+}
+
+.stat-card p {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .dashboard-nav {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .dashboard-nav button {
+        width: 100%;
+    }
+
+    .dashboard-content {
+        grid-template-columns: 1fr;
+        /* Single column for smaller screens */
+    }
+
+    .situation-card,
+    .notification-card {
+        padding: 15px;
+    }
+
+    .situation-card h4,
+    .notification-card p {
+        font-size: 18px;
+    }
+
+    .situation-card p,
+    .notification-card p {
+        font-size: 14px;
+    }
+}

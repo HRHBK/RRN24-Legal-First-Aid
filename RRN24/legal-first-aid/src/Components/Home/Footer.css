@@ -1,7 +1,9 @@
 /* Footer Styling */
 .footer {
-  background-color: #000; /* Black background like LinkedIn */
-  color: white; /* White text color */
+  background-color: #000;
+  /* Black background like LinkedIn */
+  color: white;
+  /* White text color */
   text-align: center;
   padding: 30px 20px;
   width: 100%;
@@ -30,21 +32,24 @@
 }
 
 .footer-links a {
-  color: white; /* White text color */
+  color: white;
+  /* White text color */
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease-in-out;
 }
 
 .footer-links a:hover {
-  color: #ddd; /* Lighter hover effect */
+  color: white;
+  /* Keep the same text color */
 }
 
 /* Contact Details */
 .footer-contact {
   text-align: center;
   font-size: 16px;
-  color: white; /* White text color */
+  color: white;
+  /* White text color */
 }
 
 /* Social Media Icons */
@@ -55,13 +60,15 @@
 }
 
 .footer-social a {
-  color: white; /* White text color */
+  color: white;
+  /* White text color */
   font-size: 24px;
   transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
 .footer-social a:hover {
-  color: #ddd; /* Lighter hover effect */
+  color: white;
+  /* Keep the same text color */
   transform: scale(1.1);
 }
 
@@ -70,7 +77,8 @@
   margin-top: 10px;
   font-size: 14px;
   opacity: 0.8;
-  color: white; /* White text color */
+  color: white;
+  /* White text color */
 }
 
 /* Responsive Design */

@@ -15,6 +15,9 @@ const Navbar = () => {
     const userName = localStorage.getItem("userName");
     const userPhoto = localStorage.getItem("userPhoto");
 
+    console.log("User Name:", userName); // Debugging log
+    console.log("User Photo:", userPhoto); // Debugging log
+
     if (token) {
       setIsLoggedIn(true);
       setUserData({ name: userName, photo: userPhoto });
@@ -25,8 +28,7 @@ const Navbar = () => {
     try {
       const token = localStorage.getItem("authToken");
       if (!token) {
-        console.error("No token found. Redirecting to login.");
-        navigate("/login");
+        navigate("/login"); // Redirect to login if no token
         return;
       }
 
@@ -39,16 +41,13 @@ const Navbar = () => {
           },
         }
       );
-      localStorage.clear();
+      localStorage.clear(); // Clear local storage
       setIsLoggedIn(false);
-      navigate("/");
+      navigate("/"); // Redirect to home page
     } catch (error) {
       console.error("Error logging out:", error);
-      if (error.response?.status === 401) {
-        console.error("Unauthorized. Redirecting to login.");
-        localStorage.clear();
-        navigate("/login");
-      }
+      localStorage.clear();
+      navigate("/"); // Redirect to home page on error
     }
   };
 
@@ -58,6 +57,7 @@ const Navbar = () => {
   };
 
   const getInitials = (name) => {
+    if (!name) return "?";
     return name
       .split(" ")
       .map((part) => part.charAt(0).toUpperCase())
@@ -96,7 +96,7 @@ const Navbar = () => {
       {/* Right Section: Profile or Login/Logout */}
       <div className="nav-right">
         {isLoggedIn ? (
-          <div className="user-profile">
+          <div className="user-profile" onClick={() => navigate("/dashboard")}>
             {userData.photo ? (
               <img
                 src={userData.photo}

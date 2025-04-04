@@ -1,5 +1,5 @@
 import React from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';  // Corrected import
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LandingPage from './Pages/LandingPage';
 import Home from './Pages/Home';
 import About from './Pages/About';
@@ -8,7 +8,8 @@ import Form from './Components/LoginSignup/Form.jsx';
 import Question_Answers from './Pages/Question_Answers';
 import PrivacyPolicy from './Pages/PrivacyPolicy.jsx';
 import TermsOfServices from './Pages/TermsOfServices.jsx';
-
+import UserDashboard from './Pages/UserDashboard.jsx';
+import ErrorBoundary from './Components/ErrorBoundary';
 
 const router = createBrowserRouter([
   {
@@ -42,11 +43,31 @@ const router = createBrowserRouter([
   {
     path: '/privacypolicy',
     element: <PrivacyPolicy />,
-  }
+  },
+  {
+    path: '/dashboard',
+    element: <UserDashboard />,
+  },
+  {
+    path: '*',
+    element: (
+      <div style={{ textAlign: 'center', padding: '50px' }}>
+        <h1>404 - Page Not Found</h1>
+        <p>The page you are looking for does not exist.</p>
+        <a href="/" style={{ color: '#0073b1', textDecoration: 'none' }}>
+          Go Back
+        </a>
+      </div>
+    ),
+  },
 ]);
 
 const App = () => {
-  return <RouterProvider router={router} />  // Corrected RouterProvider
-}
+  return (
+    <ErrorBoundary>
+      <RouterProvider router={router} />
+    </ErrorBoundary>
+  );
+};
 
 export default App;

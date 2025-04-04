@@ -47,15 +47,27 @@
   width: 120px;
 }
 
-.cta-button button {
+/* Updated button styling - Always black background with white text */
+.cta-button {
   padding: 10px 20px;
   background-color: black;
   color: white;
   border: none;
   cursor: pointer;
   margin-top: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  display: inline-block;
 }
 
+/* No hover effect */
+.cta-button:hover {
+  background-color: black;
+  color: white;
+}
+
+/* Updated question form button */
 .question-form {
   margin-top: 20px;
 }
@@ -87,10 +99,13 @@
   cursor: pointer;
   width: 120px;
   font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  display: inline-block;
 }
 
-.question-form button:hover,
-.cta-button button:hover {
+/* No hover effect */
+.question-form button:hover {
   background-color: black;
   color: white;
 }
@@ -102,7 +117,7 @@
     max-width: none;
   }
 
-  .cta-button button {
+  .cta-button {
     width: 100%;
   }
 

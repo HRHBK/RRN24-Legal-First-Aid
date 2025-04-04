@@ -8,8 +8,8 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px 30px;
-    background-color: #000; /* Black background */
-    color: white; /* White text color */
+    background-color: #000;
+    color: white;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 1000;
 }
@@ -18,18 +18,18 @@
 .nav-left {
     display: flex;
     align-items: center;
-    gap: 15px; /* Increased gap for better spacing */
+    gap: 15px;
 }
 
 .logo-image {
-    width: 70px; /* Increased size */
-    height: 70px; /* Increased size */
+    width: 70px;
+    height: 70px;
 }
 
 .logo-title {
-    font-size: 24px; /* Increased font size */
+    font-size: 24px;
     font-weight: bold;
-    color: white; /* White text color */
+    color: white;
     text-decoration: none;
 }
 
@@ -37,55 +37,72 @@
 .nav-center {
     display: flex;
     align-items: center;
+    /* Align items vertically */
     gap: 20px;
     margin: 0 auto;
+    position: relative;
+
+    input {
+        top: 10rem;
+    }
 }
 
 .nav-link {
-    font-size: 24px; /* Increased icon size */
-    color: white; /* White text color */
+    font-size: 24px;
+    color: white;
     text-decoration: none;
     display: flex;
     align-items: center;
 }
 
 .nav-link:hover {
-    color: #ddd; /* Lighter hover effect */
+    color: #ddd;
 }
 
 .nav-search {
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-items: center;
+    /* Ensure vertical alignment */
+    gap: 0;
+    /* Remove gap between input and button */
 }
 
 .nav-search input {
     padding: 8px 12px;
     border: 1px solid #ccc;
-    border-radius: 5px 0 0 5px; /* Adjusted for seamless alignment with button */
+    border-radius: 5px 0 0 5px;
+    /* Rounded corners for the left side */
     outline: none;
     font-size: 14px;
     width: 200px;
     background-color: #333;
     color: white;
-    height: 38px; /* Reduced height to match the button */
+    height: 36px;
+    /* Ensure consistent height */
+    box-sizing: border-box;
 }
 
 .nav-search button {
     background: #0073b1;
     border: none;
     color: white;
-    padding: 8px 12px;
-    border-radius: 0 5px 5px 0; /* Adjusted for seamless alignment with input */
+    /* padding: 8px 12px; */
+    border-radius: 0 5px 5px 0;
+    /* Rounded corners for the right side */
     cursor: pointer;
     display: flex;
     align-items: center;
+    justify-content: center;
     font-size: 16px;
-    height: 38px; /* Ensures consistent height with input */
+    height: 36px;
+    /* Ensure consistent height */
+    box-sizing: border-box;
 }
 
 .nav-search button:hover {
-    background: #0056b3;
+    background: #0073b1;
+    /* Remove hover effect */
 }
 
 /* Right Section (Login/Logout) */
@@ -98,8 +115,9 @@
 .nav-login,
 .nav-logout {
     padding: 8px 16px;
+    margin-right: 100px;
     background-color: #0073b1;
-    color: white; /* White text color */
+    color: white;
     font-size: 14px;
     font-weight: bold;
     border-radius: 20px;
@@ -110,7 +128,8 @@
 
 .nav-login:hover,
 .nav-logout:hover {
-    background-color: #0056b3;
+    background-color: #0073b1;
+    /* Keep the same background color */
 }
 
 /* User Profile Section */
@@ -133,7 +152,7 @@
     height: 40px;
     border-radius: 50%;
     background-color: #0073b1;
-    color: white; /* White text color */
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -157,5 +176,47 @@
 
     .nav-search input {
         width: 100%;
+    }
+
+    .nav-right {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .nav-login,
+    .nav-logout {
+        margin-right: 0;
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .logo-image {
+        width: 50px;
+        height: 50px;
+    }
+
+    .logo-title {
+        font-size: 20px;
+    }
+
+    .nav-link {
+        font-size: 20px;
+    }
+
+    .nav-search input {
+        font-size: 12px;
+    }
+
+    .nav-search button {
+        font-size: 14px;
+    }
+
+    .nav-login,
+    .nav-logout {
+        font-size: 12px;
+        padding: 6px 12px;
     }
 }

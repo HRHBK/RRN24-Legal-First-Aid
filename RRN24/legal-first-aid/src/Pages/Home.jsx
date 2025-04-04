@@ -8,11 +8,14 @@ import PageLayout from '../Components/PageLayout.jsx';
 import LegalQA from '../Components/LegalQA.jsx';
 import SidebarFooter from '../Components/SidebarFooter.jsx';
 import legalQuestions from '../Components/Data'; // Import existing questions
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import axios from 'axios'; // Import axios
 
 const Home = () => {
   const [questions, setQuestions] = useState(legalQuestions);
   const [userData, setUserData] = useState(null); // Add state for userData
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate(); // Initialize navigate
 
   // Retrieve user data from localStorage when the component mounts
   useEffect(() => {
@@ -36,35 +39,72 @@ const Home = () => {
     }
   }, []); // Empty dependency array ensures this runs only once on mount
 
-  const handleQuestionSubmit = (questionText) => {
+  const handleQuestionSubmit = async (questionText) => {
     if (!userData) {
       console.log("User not logged in, cannot submit a question.");
       return;
     }
 
-    const newQuestion = {
-      id: Date.now(),
-      question: questionText,
-      askedBy: userData.name || "Anonymous", // Use userData.name if available
-      responses: [],
-      timestamp: new Date().toISOString(),
-    };
+    try {
+      const token = localStorage.getItem("authToken");
 
-    setQuestions((prevQuestions) => [newQuestion, ...prevQuestions]); // Add new question to the top
-    console.log("Submitting question:", newQuestion, "Asked by:", userData.name);
+      if (!token) {
+        console.error("No token found. Redirecting to login.");
+        navigate("/login");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("title", questionText);
+      formData.append("description", ""); // Optional description field
+      formData.append("is_sensitive", "0");
+
+      const response = await axios.post(
+        "https://rrn24.techchantier.com/Legal_First_Aid/public/api/situations",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200 && response.data.message === "Situation created successfully") {
+        const newQuestion = {
+          id: response.data.data.id,
+          title: response.data.data.title,
+          description: response.data.data.description,
+          created_at: response.data.data.created_at,
+          askedBy: userData.name,
+          askedByImage: userData.photo,
+          responses: [],
+        };
+
+        setQuestions((prevQuestions) => [newQuestion, ...prevQuestions]); // Add new question to the top
+        console.log("Question submitted successfully:", newQuestion);
+      } else {
+        console.error("Unexpected response:", response.data);
+      }
+    } catch (error) {
+      console.error("Error submitting question:", error.response ? error.response.data : error);
+    }
   };
 
   return (
     <div className="home">
       <PageLayout>
         <div className="home-layout">
+          {/* Sidebar with sticky positioning */}
           <aside className="sidebar">
             <SidebarFooter
               isLoggedIn={isLoggedIn}
               userData={userData}
               onSubmitQuestion={handleQuestionSubmit}
+              onProfileClick={() => navigate("/dashboard")}
             />
           </aside>
+
+          {/* Main Content Area */}
           <main className="feed">
             <div className="merged-content">
               <LegalQA

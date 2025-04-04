@@ -1,0 +1,29 @@
+.landing-hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+    text-align: center;
+    background: transparent;
+    color: black;
+}
+
+.landing-hero-content {
+    max-width: 600px;
+    padding: 20px;
+}
+
+.landing-hero h1 {
+    font-size: 3.5rem;
+    /* Increased font size */
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #0073b1;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+    /* Add text shadow for consistency */
+}
+
+.landing-hero p {
+    font-size: 1.5rem;
+    color: white;
+}
