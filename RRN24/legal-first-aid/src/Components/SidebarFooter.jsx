@@ -89,6 +89,21 @@ const SidebarFooter = ({ isLoggedIn, userData, onSubmitQuestion }) => {
 
     return (
         <aside className="sidebar-footer">
+            {isLoggedIn && (
+                <div className="user-info" onClick={onProfileClick}>
+                    {userData?.photo ? (
+                        <img
+                            src={userData.photo}
+                            alt="User"
+                            className="user-image"
+                        />
+                    ) : (
+                        <div className="user-initials">{getInitials(userData.name)}</div>
+                    )}
+                    <h3>{userData?.name}</h3>
+                    <p>{userData?.email}</p>
+                </div>
+            )}
             <button className="ask-question-btn" onClick={handleAskQuestion}>
                 Ask a Question
             </button>
@@ -136,21 +151,7 @@ const SidebarFooter = ({ isLoggedIn, userData, onSubmitQuestion }) => {
                 </div>
             )}
 
-            {isLoggedIn && (
-                <div className="user-info" onClick={onProfileClick}>
-                    {userData?.photo ? (
-                        <img
-                            src={userData.photo}
-                            alt="User"
-                            className="user-image"
-                        />
-                    ) : (
-                        <div className="user-initials">{getInitials(userData.name)}</div>
-                    )}
-                    <h3>{userData?.name}</h3>
-                    <p>{userData?.email}</p>
-                </div>
-            )}
+            
 
             <div className="footer-links">
                 <Link to="/about">About Us</Link>

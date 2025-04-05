@@ -68,17 +68,19 @@ const Navbar = () => {
     <nav className="nav">
       {/* Left Section: Logo */}
       <div className="nav-left">
+        <Link to="/">
         <img src="src\assets\mylogo.webp" alt="Logo" className="logo-image" />
+        </Link>
         <Link to="/" className="logo-title">Legal First Aid</Link>
       </div>
 
       {/* Center Section: Nav Links and Search */}
       <div className="nav-center">
         <Link to="/home" title="Home" className="nav-link">
-          <FaHome />
+          Home
         </Link>
         <Link to="/about" title="About" className="nav-link">
-          <FaInfoCircle />
+          About Us
         </Link>
         <form className="nav-search" onSubmit={handleSearch}>
           <input
@@ -87,8 +89,8 @@ const Navbar = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button type="submit">
-            <FaSearch />
+          <button type="submit" >
+            search
           </button>
         </form>
       </div>

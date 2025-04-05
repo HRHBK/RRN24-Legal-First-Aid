@@ -11,6 +11,21 @@ import TermsOfServices from './Pages/TermsOfServices.jsx';
 import UserDashboard from './Pages/UserDashboard.jsx';
 import ErrorBoundary from './Components/ErrorBoundary';
 
+// Move these ABOVE the router
+const isAuthenticated = () => {
+  return !!localStorage.getItem("authToken");
+};
+
+const RedirectToLogin = () => (
+  <div style={{ textAlign: 'center', padding: '50px' }}>
+    <h1>Access Denied</h1>
+    <p>You must be logged in to perform this action.</p>
+    <a href="/login" style={{ color: '#0073b1', textDecoration: 'none' }}>
+      Go to Login
+    </a>
+  </div>
+);
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -46,7 +61,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/dashboard',
-    element: <UserDashboard />,
+    element: isAuthenticated() ? <UserDashboard /> : <RedirectToLogin />,
   },
   {
     path: '*',

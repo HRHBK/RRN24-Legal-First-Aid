@@ -7,26 +7,29 @@ import './Home.css';
 import PageLayout from '../Components/PageLayout.jsx';
 import LegalQA from '../Components/LegalQA.jsx';
 import SidebarFooter from '../Components/SidebarFooter.jsx';
-import legalQuestions from '../Components/Data'; // Import existing questions
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import axios from 'axios'; // Import axios
+import legalQuestions from '../Components/Data';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Home = () => {
   const [questions, setQuestions] = useState(legalQuestions);
-  const [userData, setUserData] = useState(null); // Add state for userData
+  const [userData, setUserData] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
-  // Retrieve user data from localStorage when the component mounts
+  // Automatically detect if user is logged in
   useEffect(() => {
-    const userName = localStorage.getItem("userName");
-    const userEmail = localStorage.getItem("userEmail");
-    const userRole = localStorage.getItem("userRole");
-    const userMatricule = localStorage.getItem("userMatricule");
-    const userPhoto = localStorage.getItem("userPhoto");
-    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      setIsLoggedIn(true);
 
-    if (userName && userEmail) {
+      const userName = localStorage.getItem("userName");
+      const userEmail = localStorage.getItem("userEmail");
+      const userRole = localStorage.getItem("userRole");
+      const userMatricule = localStorage.getItem("userMatricule");
+      const userPhoto = localStorage.getItem("userPhoto");
+      const userId = localStorage.getItem("userId");
+
       setUserData({
         name: userName,
         email: userEmail,
@@ -35,28 +38,27 @@ const Home = () => {
         photo: userPhoto,
         userId: userId,
       });
-      setIsLoggedIn(true);
     }
-  }, []); // Empty dependency array ensures this runs only once on mount
+  }, []);
 
   const handleQuestionSubmit = async (questionText) => {
-    if (!userData) {
-      console.log("User not logged in, cannot submit a question.");
+    if (!isLoggedIn) {
+      console.log("User not logged in, redirecting to login.");
+      navigate("/home");
       return;
     }
 
     try {
       const token = localStorage.getItem("authToken");
-
       if (!token) {
-        console.error("No token found. Redirecting to login.");
+        console.error("Token missing. Redirecting to login.");
         navigate("/login");
         return;
       }
 
       const formData = new FormData();
       formData.append("title", questionText);
-      formData.append("description", ""); // Optional description field
+      formData.append("description", "");
       formData.append("is_sensitive", "0");
 
       const response = await axios.post(
@@ -75,12 +77,12 @@ const Home = () => {
           title: response.data.data.title,
           description: response.data.data.description,
           created_at: response.data.data.created_at,
-          askedBy: userData.name,
-          askedByImage: userData.photo,
+          askedBy: userData?.name || "Anonymous",
+          askedByImage: userData?.photo || "",
           responses: [],
         };
 
-        setQuestions((prevQuestions) => [newQuestion, ...prevQuestions]); // Add new question to the top
+        setQuestions((prevQuestions) => [newQuestion, ...prevQuestions]);
         console.log("Question submitted successfully:", newQuestion);
       } else {
         console.error("Unexpected response:", response.data);
@@ -94,7 +96,6 @@ const Home = () => {
     <div className="home">
       <PageLayout>
         <div className="home-layout">
-          {/* Sidebar with sticky positioning */}
           <aside className="sidebar">
             <SidebarFooter
               isLoggedIn={isLoggedIn}
@@ -104,7 +105,6 @@ const Home = () => {
             />
           </aside>
 
-          {/* Main Content Area */}
           <main className="feed">
             <div className="merged-content">
               <LegalQA
@@ -117,7 +117,7 @@ const Home = () => {
             </div>
           </main>
         </div>
-        <Features />
+        <div></div>
       </PageLayout>
     </div>
   );

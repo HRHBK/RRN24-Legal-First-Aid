@@ -24,12 +24,6 @@ const LegalQA = ({ isLoggedIn, userData }) => {
     try {
       const token = localStorage.getItem("authToken");
 
-      if (!token) {
-        console.error("No token found. Redirecting to login.");
-        navigate("/login");
-        return;
-      }
-
       const response = await axios.get(
         `https://rrn24.techchantier.com/Legal_First_Aid/public/api/situations`,
         {
@@ -147,12 +141,6 @@ const LegalQA = ({ isLoggedIn, userData }) => {
     try {
       const token = localStorage.getItem("authToken");
 
-      if (!token) {
-        console.error("No token found. Redirecting to login.");
-        navigate("/login");
-        return [];
-      }
-
       const response = await axios.get(
         `https://rrn24.techchantier.com/Legal_First_Aid/public/api/situations/${situationId}/suggestions`,
         {
@@ -212,9 +200,9 @@ const LegalQA = ({ isLoggedIn, userData }) => {
           prevSituations.map((situation) =>
             situation.id === situationId
               ? {
-                    ...situation,
-                    responses: [...situation.responses, newSuggestion],
-                }
+                ...situation,
+                responses: [...situation.responses, newSuggestion],
+              }
               : situation
           )
         );
@@ -359,7 +347,7 @@ const LegalQA = ({ isLoggedIn, userData }) => {
                 {user?.image ? (
                   <img src={user.image} className="avatar-image" alt={`${user?.name || "User"}'s Avatar`} />
                 ) : (
-                  <span>{user?.name ? getInitials(user.name) : "?"}</span>
+                  <span>{user?.name ? getInitials(user.name) : "LW"}</span>
                 )}
               </div>
               <div className="user-info">
@@ -408,7 +396,7 @@ const LegalQA = ({ isLoggedIn, userData }) => {
                                   .split(" ")
                                   .map((part) => part.charAt(0).toUpperCase())
                                   .join("")
-                                : "?"}
+                                : "LW"}
                             </div>
                           )}
                           <p className="response-author">{response.lawyer?.name || "Anonymous"}</p>

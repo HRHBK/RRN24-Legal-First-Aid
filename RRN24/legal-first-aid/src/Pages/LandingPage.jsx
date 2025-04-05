@@ -65,7 +65,7 @@ const LandingPage = () => {
       </section>
 
       {/* Features Section */}
-      <section>
+      <section className="users-say">
         <h2>Our Features</h2>
         <Features />
       </section>
@@ -76,15 +76,15 @@ const LandingPage = () => {
         <div className="testimonials">
           <div className="testimonial-card">
             <p>"Legal First Aid helped me understand my rights and take action. Highly recommended!"</p>
-            <h4>- Jane Doe</h4>
+            <h4>- Ngong John</h4>
           </div>
           <div className="testimonial-card">
             <p>"The platform is easy to use, and the legal experts are very knowledgeable."</p>
-            <h4>- John Smith</h4>
+            <h4>- Micheal James</h4>
           </div>
           <div className="testimonial-card">
             <p>"I was able to resolve my legal issue quickly thanks to Legal First Aid."</p>
-            <h4>- Mary Johnson</h4>
+            <h4>- Mary Bright</h4>
           </div>
         </div>
       </section>
@@ -107,9 +107,14 @@ const LandingPage = () => {
       <section className="sponsors-section">
         <h2>Our Sponsors</h2>
         <div className="sponsors-logos">
-          <img src="src/Components/Assets/mine.jpg" alt="Sponsor 1" />
-          <img src="src/Components/Assets/mine.jpg" alt="Sponsor 2" />
-          <img src="src/Components/Assets/mine.jpg" alt="Sponsor 3" />
+          <img src="src/Components/Assets/buyam.svg" alt="Sponsor 1" />
+          <img src="src/Components/Assets/leapfrog.jpg" alt="Sponsor 2" />
+          <img src="src/Components/Assets/buyam.svg" alt="Sponsor 4" />
+          <img src="src/Components/Assets/leapfrog.jpg" alt="Sponsor 3" />
+          <img src="src/Components/Assets/buyam.svg" alt="Sponsor 5" />
+          <img src="src/Components/Assets/leapfrog.jpg" alt="Sponsor 6" />
+          <img src="src/Components/Assets/buyam.svg" alt="Sponsor 7" />
+          <img src="src/Components/Assets/leapfrog.jpg" alt="Sponsor 8" />
         </div>
       </section>
 
@@ -123,7 +128,7 @@ const LandingPage = () => {
             <p>Founder & CEO</p>
           </div>
           <div className="team-member">
-            <img src="src/Components/Assets/mine.jpg" alt="Team Member 2" />
+            <img src="src/Components/Assets/img5.jpg" alt="Team Member 2" />
             <h3>Bakia C</h3>
             <p>Legal Advisor</p>
           </div>
