@@ -1,8 +1,8 @@
 import React from 'react';
 import './Background.css';
-import boy from '../Assets/boy.png';
-import lawyers from '../Assets/lawyers.png';
-import police from '../Assets/police.png';
+import boy from '../Assets/img11.jpg';
+import lawyers from '../Assets/img1.jpg';
+import police from '../Assets/img3.jpg';
 
 const Background = ({ bgCount }) => {
   const getImage = () => {

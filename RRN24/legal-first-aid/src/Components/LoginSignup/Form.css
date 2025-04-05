@@ -64,10 +64,11 @@ textarea:focus {
 }
 
 button {
-    display: block; /* Ensure the button is treated as a block element */
-    margin: 0 auto; /* Center-align the button */
+    display: block;
+    margin: 0 auto;
     padding: 12px 20px;
     background-color: #0073b1;
+    /* Updated to match the blue used throughout the program */
     color: white;
     border: none;
     border-radius: 5px;
@@ -79,10 +80,8 @@ button {
 }
 
 button:hover {
-    background-color: #0073b1;
-    /* Keep the same background color */
-    transform: none;
-    /* Remove scaling effect */
+    background-color: #0056b3;
+    /* Updated hover effect to match the program's blue hover */
 }
 
 p {

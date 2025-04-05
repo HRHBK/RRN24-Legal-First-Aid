@@ -29,7 +29,7 @@ const UserDashboard = () => {
             name: userName,
             email: userEmail,
             role: userRole,
-            photo: userPhoto || "/path/to/default-avatar.png",
+            photo: userPhoto || null, // Ensure photo is null if not provided
         });
 
         // Fetch posted situations
@@ -98,7 +98,7 @@ const UserDashboard = () => {
             <div className="dashboard-container">
                 {/* User Info Section */}
                 <div className="user-info-section">
-                    {userData.photo && userData.photo !== "null" && userData.photo !== "" ? ( // Ensure photo is valid
+                    {userData.photo ? (
                         <img src={userData.photo} alt="User Avatar" className="user-avatar" />
                     ) : (
                         <div className="user-initials">{getInitials(userData.name)}</div>

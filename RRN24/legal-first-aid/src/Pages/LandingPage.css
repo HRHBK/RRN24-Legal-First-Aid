@@ -62,7 +62,8 @@
 
 .cta-button {
   padding: 15px 40px;
-  background-color: #007bff; /* Match the background color of other buttons */
+  background-color: #007bff;
+  /* Match the background color of other buttons */
   color: white;
   border: none;
   border-radius: 5px;
@@ -72,7 +73,8 @@
 }
 
 .cta-button:hover {
-  background-color: #0056b3; /* Match the hover effect of other buttons */
+  background-color: #0056b3;
+  /* Match the hover effect of other buttons */
 }
 
 button,
@@ -99,8 +101,10 @@ button:hover,
 }
 
 .about-section {
-  margin: 0 20px; /* Add margin to the left and right */
-  text-align: center; /* Center-align text */
+  margin: 0 20px;
+  /* Add margin to the left and right */
+  text-align: center;
+  /* Center-align text */
   padding: 60px 20px;
   background: rgba(255, 255, 255, 0.9);
   /* Add a semi-transparent white background for better contrast */
@@ -495,6 +499,9 @@ button:hover,
   }
 }
 
-h1, h2, h3 {
-  text-align: center; /* Center-align all headings */
+h1,
+h2,
+h3 {
+  text-align: center;
+  /* Center-align all headings */
 }
